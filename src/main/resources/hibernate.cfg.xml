@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:mysql://localhost:3306/video-recruit</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <mapping class="praca.videorecruit.datamodel.Account"/>
+        <mapping class="praca.videorecruit.datamodel.Application"/>
+        <mapping class="praca.videorecruit.datamodel.Company"/>
+        <mapping class="praca.videorecruit.datamodel.FieldOfBusiness"/>
+        <mapping class="praca.videorecruit.datamodel.File"/>
+        <mapping class="praca.videorecruit.datamodel.Offer"/>
+        <mapping class="praca.videorecruit.datamodel.Person"/>
+        <mapping class="praca.videorecruit.datamodel.Role"/>
+        <mapping class="praca.videorecruit.datamodel.Privilege"/>
+    </session-factory>
+</hibernate-configuration>

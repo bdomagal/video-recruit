@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"
+xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/login.css"/>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <meta charset="UTF-8"/>
+    <title>Video-recruiter</title>
+</head>
+<body>
+<div class="login-page">
+    <div class="form">
+        <form class="login-form" th:object="${user}" method="post" th:action="@{/registerUser}">
+            <p>Zarejestruj się</p>
+            <div th:if="${#fields.errors('firstName').size()>0}" class="alert alert-danger fade in alert-dismissable" >
+                <span th:each="error: ${#fields.errors('firstName')}" th:text="${error}+' '">Validation error</span>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>
+            <input th:field="*{firstName}" placeholder="first name"/>
+            <div th:if="${#fields.errors('lastName').size()>0}" class="alert alert-danger fade in alert-dismissable" >
+                <span th:each="error: ${#fields.errors('lastName')}" th:text="${error}+' '">Validation error</span>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>
+            <input th:field="*{lastName}" placeholder="last name"/>
+            <select class="form-control" th:field="*{country}">
+                <option th:value="Poland">Polska</option>
+            </select>
+            <div th:if="${#fields.errors('email').size()>0}" class="alert alert-danger fade in alert-dismissable" >
+                <span th:each="error: ${#fields.errors('email')}" th:text="${error}+' '">Validation error</span>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>
+            <input th:field="*{email}" type="email" placeholder="email address"/>
+            <input id="password" type="password" th:field="*{password}" onkeyup="checkPasswordMatch()" placeholder="password"/>
+            <input id="password2" type="password" th:field="*{password2}" onkeyup="checkPasswordMatch()" placeholder="retype password"/>
+            <div th:if="${#fields.errors('password').size()>0}" class="alert alert-danger fade in alert-dismissable" >
+                <span th:each="error: ${#fields.errors('password')}" th:text="${error}+' '">Validation error</span>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>
+            <button>create</button>
+            <p class="message">Already registered? <a href="#">Sign In</a></p>
+        </form>
+        <form class="register-form" th:object="${company}" method="post" th:action="@{/registerComp}">
+            <p>Zarejestruj się jako instytucja</p>
+            <div th:if="${#fields.errors('name').size()>0}" class="alert alert-danger fade in alert-dismissable" >
+                <span th:each="error: ${#fields.errors('name')}" th:text="${error}+' '">Validation error</span>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>
+            <input th:field="*{name}" placeholder="nazwa"/>
+            <div th:if="${#fields.errors('address').size()>0}" class="alert alert-danger fade in alert-dismissable" >
+                <span th:each="error: ${#fields.errors('address')}" th:text="${error}+' '">Validation error</span>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>
+            <input th:field="*{address}" placeholder="adres siedziby"/>
+            <div th:if="${#fields.errors('email').size()>0}" class="alert alert-danger fade in alert-dismissable" >
+                <span th:each="error: ${#fields.errors('email')}" th:text="${error}+' '">Validation error</span>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>
+            <input th:field="*{email}" type="email" placeholder="email address"/>
+            <input id="passwordComp" type="password" th:field="*{passwordComp}" onkeyup="checkPasswordCompMatch()" placeholder="password"/>
+            <input id="passwordComp2" type="password" th:field="*{passwordComp2}" onkeyup="checkPasswordCompMatch()" placeholder="retype password"/>
+            <div th:if="${#fields.errors('passwordComp').size()>0}" class="alert alert-danger fade in alert-dismissable" >
+                <span th:each="error: ${#fields.errors('passwordComp2')}" th:text="${error}+' '">Validation error</span>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>
+            <button>login</button>
+            <p class="message">Not registered? <a href="#">Create an account</a></p>
+        </form>
+    </div>
+</div>
+</body>
+<script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script
+        src="js/login.js"></script>
+</html>
