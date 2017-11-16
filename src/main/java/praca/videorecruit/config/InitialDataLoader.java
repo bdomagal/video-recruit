@@ -47,17 +47,19 @@ public class InitialDataLoader implements
   
         List<Privilege> adminPrivileges = Arrays.asList(
           readPrivilege, writePrivilege);        
-        createRoleIfNotFound("ADMIN", adminPrivileges);
-        createRoleIfNotFound("USER", Arrays.asList(readPrivilege));
+        createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
+        createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
  
         Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-        Account user = new Account();
-        user.setPassword(passwordEncoder.encode("test"));
-        user.setEmail("test@test.com");
-        user.setRoles(Arrays.asList(adminRole));
-        user.setStatus("ADMIN");
-        userRepository.save(user);
- 
+        Account user = userRepository.findByEmail("admin");
+        if(user == null) {
+            user = new Account();
+            user.setPassword(passwordEncoder.encode("admin"));
+            user.setEmail("admin");
+            user.setRoles(Arrays.asList(adminRole));
+            user.setStatus("ADMIN");
+            userRepository.save(user);
+        }
         alreadySetup = true;
     }
 

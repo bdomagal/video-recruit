@@ -30,7 +30,6 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(
                     "No user found with username: "+ email);
         }
-        System.out.println("Pint");
         boolean enabled = true;
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;
