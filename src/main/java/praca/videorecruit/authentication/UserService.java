@@ -1,6 +1,7 @@
 package praca.videorecruit.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import praca.videorecruit.datamodel.Account;
@@ -9,18 +10,32 @@ import praca.videorecruit.datamodel.Person;
 import praca.videorecruit.repositories.AccountRepository;
 import praca.videorecruit.repositories.CompanyRepository;
 import praca.videorecruit.repositories.PersonRepository;
+import praca.videorecruit.repositories.RoleRepository;
 
 import javax.transaction.Transactional;
 
 @Component
 public class UserService {
 
-    @Autowired
+    final
     AccountRepository accountRepository;
-    @Autowired
+    final
     PersonRepository personRepository;
-    @Autowired
+    final
     CompanyRepository companyRepository;
+    final
+    RoleRepository roleRepository;
+    final
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserService(AccountRepository accountRepository, PersonRepository personRepository, CompanyRepository companyRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+        this.accountRepository = accountRepository;
+        this.personRepository = personRepository;
+        this.companyRepository = companyRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Transactional
     public boolean register(RegisterDTO user, BindingResult result){
@@ -40,8 +55,9 @@ public class UserService {
         if(isValid){
             Account account = new Account();
             account.setEmail(user.getEmail());
-            account.setPassword(user.getPassword());
+            account.setPassword(passwordEncoder.encode(user.getPassword()));
             account.setStatus("nActive");
+            account.getRoles().add(roleRepository.findByName("ROLE_USER"));
             accountRepository.save(account);
             Person p= new Person();
             p.setAccountByAccountId(accountRepository.findByEmail(user.getEmail()));
@@ -80,8 +96,9 @@ public class UserService {
         if(isValid){
             Account account = new Account();
             account.setEmail(user.getEmail());
-            account.setPassword(user.getPasswordComp());
+            account.setPassword(passwordEncoder.encode(user.getPasswordComp()));
             account.setStatus("nActive");
+            account.getRoles().add(roleRepository.findByName("ROLE_COMPANY"));
             accountRepository.save(account);
             Company p= new Company();
             p.setAccountByAccountId(accountRepository.findByEmail(user.getEmail()));

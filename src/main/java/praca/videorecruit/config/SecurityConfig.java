@@ -21,8 +21,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 
 
-    @Autowired
+    final
     UserDetailsService userDetailsService;
+
+    @Autowired
+    public SecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -36,12 +41,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .authorizeRequests()
                     .antMatchers("/css/**", "/js/**").permitAll()
                     .antMatchers("/login**", "/register**", "/registerUser", "/registerComp").anonymous()
-                    .antMatchers("/").hasRole("ADMIN")
+                    .antMatchers("/createOffer").hasAnyRole("COMPANY", "ADMIN")
+                    .antMatchers("/offers").hasAnyRole("USER", "ADMIN")
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
-                    .loginProcessingUrl("/perform_login")
-                    .defaultSuccessUrl("/homepage.html")
+                .loginPage("/login")
                     .failureUrl("/login?error=true")
                     .and()
                 .csrf().disable()
@@ -56,7 +61,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
-        AccountAuthenticationProvider authenticationProvider = new AccountAuthenticationProvider();
-        return authenticationProvider;
+        return new AccountAuthenticationProvider();
     }
 }

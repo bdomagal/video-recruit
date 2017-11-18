@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
+<html lang="pl"
 xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
@@ -9,12 +9,17 @@ xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="login-page">
     <div class="form">
-        <form class="login-form" method="POST">
-            <span th:text="${error}"></span>
+        <form class="login-form" method="POST" action="/login">
+            <div th:if="${param.error}">
+                Nieprawidłowa nazwa użytkownika lub hasło.
+            </div>
+            <div th:if="${param.logout}">
+                Pomyślnie wylogowano.
+            </div>
             <input name="username" type="text" placeholder="email"/>
             <input name="password" type="password" placeholder="password"/>
             <button type="submit">login</button>
-            <p class="message">Not registered? <a href="/register">Create an account</a></p>
+            <p class="message">Nie masz konta? <a href="/register">Załóż</a></p>
         </form>
     </div>
 </div>

@@ -1,15 +1,7 @@
 package praca.videorecruit.datamodel;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,7 +16,7 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "accountId", nullable = false)
+    @Column(name = "account_id", nullable = false)
     public Integer getAccountId() {
         return accountId;
     }
@@ -34,7 +26,7 @@ public class Account {
     }
 
     @Basic
-    @Column(name = "email", nullable = false, length = 255)
+    @Column(name = "email", nullable = false)
     public String getEmail() {
         return email;
     }
@@ -44,7 +36,7 @@ public class Account {
     }
 
     @Basic
-    @Column(name = "password", nullable = false, length = 255)
+    @Column(name = "password", nullable = false)
     public String getPassword() {
         return password;
     }
@@ -64,7 +56,7 @@ public class Account {
     }
 
     @Basic
-    @Column(name = "phone", nullable = true, length = 12)
+    @Column(name = "phone", length = 12)
     public String getPhone() {
         return phone;
     }
@@ -84,9 +76,7 @@ public class Account {
         if (email != null ? !email.equals(account.email) : account.email != null) return false;
         if (password != null ? !password.equals(account.password) : account.password != null) return false;
         if (status != null ? !status.equals(account.status) : account.status != null) return false;
-        if (phone != null ? !phone.equals(account.phone) : account.phone != null) return false;
-
-        return true;
+        return phone != null ? phone.equals(account.phone) : account.phone == null;
     }
 
     @Override
@@ -117,14 +107,14 @@ public class Account {
         this.personByAccountId = personByAccountId;
     }
 
-    private List<Role> roles;
+    private List<Role> roles = new ArrayList<>();
 
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(
-                    name = "user_id", referencedColumnName = "accountId"),
+                    name = "user_id", referencedColumnName = "account_id"),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     public List<Role> getRoles() {

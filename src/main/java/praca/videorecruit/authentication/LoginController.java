@@ -1,14 +1,17 @@
 package praca.videorecruit.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
+import praca.videorecruit.datamodel.Person;
+import praca.videorecruit.repositories.AccountRepository;
+import praca.videorecruit.repositories.CompanyRepository;
+import praca.videorecruit.repositories.PersonRepository;
 
 import javax.validation.Valid;
 
@@ -18,19 +21,8 @@ public class LoginController {
     @Autowired
     UserService userService;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
-    @RequestMapping("/login")
-    public String loginPage(
-            @RequestParam(name = "error", required = false)boolean error,
-            @RequestParam(name = "register", required = false) boolean register,
-            Model model){
-        System.out.println("qweqeqweqweqwe");
-        if(register){model.addAttribute("error", "Rejestracja przebiegła pomyślnie, możesz się zalogować.");}
-        if(error){model.addAttribute("error", "Niepoprawny email lub hasło");}
-        return "login";
-    }
+
     @RequestMapping("/register")
     public String registerPage(Model model){
         model.addAttribute("user", new RegisterDTO());
@@ -68,5 +60,25 @@ public class LoginController {
         model.addAttribute("user", new RegisterDTO());
         model.addAttribute("company", user);
         return "register";
+    }
+
+
+
+
+
+
+
+    @Autowired
+    AccountRepository accountRepository;
+    @Autowired
+    PersonRepository personRepository;
+    @Autowired
+    CompanyRepository companyRepository;
+    @GetMapping("/clearUsers")
+    public String test(Authentication authentication){
+                accountRepository.deleteAll();
+                companyRepository.deleteAll();
+                personRepository.deleteAll();
+                return "hello";
     }
 }

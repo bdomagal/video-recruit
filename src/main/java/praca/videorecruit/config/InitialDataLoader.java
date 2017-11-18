@@ -14,26 +14,31 @@ import praca.videorecruit.repositories.AccountRepository;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Component
 public class InitialDataLoader implements
         ApplicationListener<ContextRefreshedEvent> {
  
-    boolean alreadySetup = false;
+    private boolean alreadySetup = false;
  
-    @Autowired
-    private AccountRepository userRepository;
+    private final AccountRepository userRepository;
   
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
   
-    @Autowired
-    private PrivilegeRepository privilegeRepository;
+    private final PrivilegeRepository privilegeRepository;
   
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    private PasswordEncoder passwordEncoder;
-  
+    public InitialDataLoader(AccountRepository userRepository, RoleRepository roleRepository, PrivilegeRepository privilegeRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.privilegeRepository = privilegeRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -41,14 +46,15 @@ public class InitialDataLoader implements
         if (alreadySetup)
             return;
         Privilege readPrivilege
-          = createPrivilegeIfNotFound("READ_PRIVILEGE");
+          = createPrivilegeIfNotFound("APPLY");
         Privilege writePrivilege
-          = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
+          = createPrivilegeIfNotFound("OFFER");
   
         List<Privilege> adminPrivileges = Arrays.asList(
           readPrivilege, writePrivilege);        
         createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
-        createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
+        createRoleIfNotFound("ROLE_USER", Collections.singletonList(readPrivilege));
+        createRoleIfNotFound("ROLE_COMPANY", Collections.singletonList(writePrivilege));
  
         Role adminRole = roleRepository.findByName("ROLE_ADMIN");
         Account user = userRepository.findByEmail("admin");
@@ -56,7 +62,7 @@ public class InitialDataLoader implements
             user = new Account();
             user.setPassword(passwordEncoder.encode("admin"));
             user.setEmail("admin");
-            user.setRoles(Arrays.asList(adminRole));
+            user.setRoles(Collections.singletonList(adminRole));
             user.setStatus("ADMIN");
             userRepository.save(user);
         }
@@ -73,7 +79,7 @@ public class InitialDataLoader implements
         return privilege;
     }
 
-    private Role createRoleIfNotFound(
+    private void createRoleIfNotFound(
       String name, List<Privilege> privileges) {
   
         Role role = roleRepository.findByName(name);
@@ -82,6 +88,5 @@ public class InitialDataLoader implements
             role.setPrivileges(privileges);
             roleRepository.save(role);
         }
-        return role;
     }
 }

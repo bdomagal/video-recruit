@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="mainLayout">
 <head>
     <meta charset="UTF-8"/>
     <title>Welcome to video-recruit</title>
 </head>
 <body>
-    <h1>Welcome to video-recruiter</h1>
+    <h1 layout:fragment="content">Welcome to video-recruiter</h1>
 </body>
 </html>

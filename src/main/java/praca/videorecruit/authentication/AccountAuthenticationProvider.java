@@ -14,24 +14,30 @@ import praca.videorecruit.repositories.AccountRepository;
 @Component
 public class AccountAuthenticationProvider implements AuthenticationProvider {
 
+    private final PasswordEncoder passwordEncoder;
+    private final AccountRepository accountRepository;
+    private final MyUserDetailsService userDetailsService;
+
     @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private MyUserDetailsService userDetailsService;
+    public AccountAuthenticationProvider(PasswordEncoder passwordEncoder, AccountRepository accountRepository, MyUserDetailsService userDetailsService) {
+        this.passwordEncoder = passwordEncoder;
+        this.accountRepository = accountRepository;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String name = authentication.getName();
         String password= authentication.getCredentials().toString();
         Account user = accountRepository.findByEmail(name);
+        if(user==null){return null;}
         if(passwordEncoder.matches(password, user.getPassword())){
             UserDetails usr = userDetailsService.loadUserByUsername(name);
             return new UsernamePasswordAuthenticationToken(usr, password, usr.getAuthorities());
         }
         else if(password.equals(user.getPassword())){
             UserDetails usr = userDetailsService.loadUserByUsername(name);
+            System.out.println("sss");
             return new UsernamePasswordAuthenticationToken(usr, password, usr.getAuthorities());
         }
         return null;
