@@ -14,16 +14,12 @@ import praca.videorecruit.repositories.AccountRepository;
 @Component
 public class AccountAuthenticationProvider implements AuthenticationProvider {
 
-    private final PasswordEncoder passwordEncoder;
-    private final AccountRepository accountRepository;
-    private final MyUserDetailsService userDetailsService;
-
     @Autowired
-    public AccountAuthenticationProvider(PasswordEncoder passwordEncoder, AccountRepository accountRepository, MyUserDetailsService userDetailsService) {
-        this.passwordEncoder = passwordEncoder;
-        this.accountRepository = accountRepository;
-        this.userDetailsService = userDetailsService;
-    }
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
+    private MyUserDetailsService userDetailsService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
