@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="mainLayout">
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="/css/offerForm.css" rel="stylesheet"/>
+</head>
+<body>
+    <th:block layout:fragment="content">
+
+        <form class="offerForm" th:action="@{createOffer}" method="post" th:object="${offer}">
+            <h1>Dodaj nową ofertę</h1>
+            <p th:text="${message}"></p>
+            <input type="hidden" th:field="*{offerId}"/>
+            <div th:if="${#fields.errors('name').size()>0}" class="alert alert-danger fade in alert-dismissable" >
+                <span th:each="error: ${#fields.errors('name')}" th:text="${error}+' '">Validation error</span>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>
+            <label>Nazwa oferty</label>
+            <input type="text" th:field="*{name}" placeholder="nazwa"/>
+            <div th:if="${#fields.errors('description').size()>0}" class="alert alert-danger fade in alert-dismissable" >
+                <span th:each="error: ${#fields.errors('description')}" th:text="${error}+' '">Validation error</span>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>
+            <label>Opis</label>
+            <textarea type="text" th:field="*{description}" placeholder="opis"/>
+            <label>Miasto pracy</label>
+            <input type="text" th:field="*{city}" placeholder="miasto"/>
+            <div th:if="${#fields.errors('country').size()>0}" class="alert alert-danger fade in alert-dismissable" >
+                <span th:each="error: ${#fields.errors('country')}" th:text="${error}+' '">Validation error</span>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>
+            <label>Kraj</label>
+            <input type="text" th:field="*{country}" placeholder="kraj"/>
+            <label>Wymagane wykształcenie</label>
+            <div><select id="title" th:field="*{jobTitle}">
+                <option value="bachelor">Inżynier/studia licencjackie</option>
+                <option value="master">Magister</option>
+                <option value="highSchool">Liceum</option>
+                <option value="student">Studiuje</option>
+                <option value="notRequired">Nie określone</option>
+            </select></div>
+            <label>Dziedziny:</label>
+            <div><select id="tags" multiple="multiple" th:field="*{positionTypes}">
+                <option th:each="field : ${fields}" th:value="${field.name}" th:text="${field.name}"></option>
+            </select></div>
+            <div><button type="submit">Zatwierdź</button></div>
+        </form>
+
+    </th:block>
+    <th:block layout:fragment="js">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+        <script type="text/javascript">
+            $('#tags').select2({
+                tags: true,
+                tokenSeparators: [','],
+                placeholder: "Wybierz dziedzine oferty"
+            });
+            $('#title').select2();
+        </script>
+    </th:block>
+</body>
+</html>

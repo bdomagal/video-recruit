@@ -1,4 +1,4 @@
-package praca.videorecruit;
+package praca.videorecruit.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,12 +14,11 @@ public class MainController {
 
     @Autowired
     private PersonRepository personRepository;
-    @Autowired
-    private FieldOfBusinessRepository fieldOfBusinessRepository;
     @GetMapping("/")
     public String hello(){
         List<Person> p = personRepository.findByFirstNameAndLastName("Bartosz", "Domagała");
         p.stream().forEach(g -> System.out.println(g.getFirstName()));
         return "hello";
     }
+
 }

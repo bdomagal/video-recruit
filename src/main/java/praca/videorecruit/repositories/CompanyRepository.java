@@ -12,4 +12,5 @@ import java.util.ArrayList;
 public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
     Company findByName(String name);
+    Company findByAccountByAccountId_Email(String name);
 }

@@ -4,12 +4,12 @@
       xmlns:th="http://www.thymeleaf.org"
       layout:decorator="mainLayout">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Welcome to video-recruit</title>
 </head>
 <body>
-    <h1 layout:fragment="content">Welcome to video-recruiter
-        <video src="/movie/1" controls="controls"></video>
-    </h1>
+    <th:block layout:fragment="content">
+        <h1 th:text="${comapny.name}"></h1>
+        <
+
+    </th:block>
 </body>
 </html>

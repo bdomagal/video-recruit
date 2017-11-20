@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="mainLayout">
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="/css/offerForm.css" rel="stylesheet"/>
+</head>
+<body>
+    <th:block layout:fragment="content">
+
+        <form class="offerForm" th:action="@{new}" method="post" th:object="${job}" enctype="multipart/form-data">
+            <h1>Dodaj nową ofertę</h1>
+            <p th:text="${message}"></p>
+            <input type="hidden" th:field="*{applicationId}" />
+            <label>Video</label>
+            <input type="file" th:field="*{video}" placeholder="nazwa" accept="video/mp4,video/x-m4v,video/*"/>
+            <input type="file" th:field="*{cv}" placeholder="nazwa"  accept="application/pdf"/>
+
+            <div><button type="submit">Zatwierdź</button></div>
+        </form>
+
+    </th:block>
+    <th:block layout:fragment="js">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+        <script type="text/javascript">
+            $('#tags').select2({
+                tags: true,
+                tokenSeparators: [','],
+                placeholder: "Wybierz dziedzine oferty"
+            });
+            $('#title').select2();
+        </script>
+    </th:block>
+</body>
+</html>

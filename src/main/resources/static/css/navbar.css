@@ -1,0 +1,4 @@
+.dropdown > a:after {
+    color: #444;
+    content: ' ▾';
+}

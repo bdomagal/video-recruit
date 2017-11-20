@@ -30,12 +30,6 @@ public class LoginController {
         return "register";
     }
 
-    @RequestMapping("/perform_login")
-    public String performLogin(Model model){
-        model.addAttribute("user", new RegisterDTO());
-        model.addAttribute("company", new RegisterCompanyDTO());
-        return "register";
-    }
 
     @PostMapping("/registerUser")
     public String registerUserAccount

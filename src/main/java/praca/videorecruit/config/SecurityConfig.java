@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import praca.videorecruit.authentication.AccountAuthenticationProvider;
 
 @Configuration
@@ -41,17 +42,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .authorizeRequests()
                     .antMatchers("/css/**", "/js/**").permitAll()
                     .antMatchers("/login**", "/register**", "/registerUser", "/registerComp").anonymous()
-                    .antMatchers("/createOffer").hasAnyRole("COMPANY", "ADMIN")
-                    .antMatchers("/offers").hasAnyRole("USER", "ADMIN")
+                    .antMatchers("/createOffer", "myProfile/company**").hasAnyRole("COMPANY", "ADMIN")
+                    .antMatchers("/offers", "myProfile/person**").hasAnyRole("USER", "ADMIN")
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
-                .loginPage("/login")
-                    .failureUrl("/login?error=true")
+                    .loginPage("/login")
+                    .failureUrl("/login?error")
                     .and()
-                .csrf().disable()
                 .logout()
-                    .permitAll();
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/login?logout").deleteCookies("JSESSIONID")
+                    .invalidateHttpSession(true)
+                .permitAll()
+                .and()
+                .headers()
+                    .frameOptions()
+                    .sameOrigin();
     }
 
     @Bean
