@@ -2,6 +2,7 @@ package praca.videorecruit.services;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import praca.videorecruit.datamodel.Application;
 import praca.videorecruit.datamodel.Offer;
 import praca.videorecruit.datamodel.Person;
 
@@ -15,6 +16,20 @@ public class ApplicationDTO {
     private String videoUrl;
     private Offer offer;
     private Person person;
+
+    public ApplicationDTO(Application app) {
+        if(app==null){return;}
+        this.applicationId = app.getApplicationId();
+        this.status = app.getStatus();
+        this.cvUrl = app.getCvUrl();
+        this.videoUrl = app.getVideoUrl();
+        this.offer = app.getOffer();
+        this.person = app.getPerson();
+    }
+
+    public ApplicationDTO() {
+
+    }
 
     public Integer getApplicationId() {
         return applicationId;

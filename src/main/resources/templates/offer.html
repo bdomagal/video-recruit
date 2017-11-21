@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="mainLayout">
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="/css/offerForm.css" rel="stylesheet"/>
+</head>
+<body>
+    <th:block layout:fragment="content">
+        <h1 th:text="${offer.name}"></h1>
+        <h2 th:text="${offer.company.name}"></h2>
+        <p th:text="${offer.description}"></p>
+        <ul th:each="field : ${offer.positionTypes}">
+            <li th:text="${field.name}"></li>
+        </ul>
+        <a class="btn btn-primary" th:href="@{'/apply/' + ${offer.offerId} + '/new'}">Aplikuj teraz</a>
+
+    </th:block>
+    <th:block layout:fragment="js">
+        <script type="text/javascript">
+        </script>
+    </th:block>
+</body>
+</html>

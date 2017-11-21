@@ -112,7 +112,7 @@ public class Company {
         this.accountByAccountId = accountByAccountId;
     }
 
-    @OneToMany(mappedBy = "companyByCompanyId")
+    @OneToMany(mappedBy = "company")
     public List<Offer> getOffersByAccountId() {
         return offersByAccountId;
     }

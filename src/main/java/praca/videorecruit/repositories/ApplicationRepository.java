@@ -11,4 +11,5 @@ import java.util.List;
 public interface ApplicationRepository extends JpaRepository<Application, Integer> {
     List<Application> findByPerson_AccountByAccountId_Email(String email);
     List<Application> findByOffer_OfferId(int id);
+    Application findByOffer_OfferIdAndPerson_AccountByAccountId_Email(int id, String email);
 }

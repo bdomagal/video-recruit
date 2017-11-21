@@ -10,17 +10,27 @@
 <body>
     <th:block layout:fragment="content">
 
+        <h1 th:text="${offer.name}"></h1>
+        <h2 th:text="${offer.company.name}"></h2>
+        <p th:text="${offer.description}"></p>
+        <ul th:each="field : ${offer.positionTypes}">
+            <li th:text="${field.name}"></li>
+        </ul>
         <form class="offerForm" th:action="@{new}" method="post" th:object="${job}" enctype="multipart/form-data">
-            <h1>Dodaj nową ofertę</h1>
+            <h1>Złóż podanie</h1>
             <p th:text="${message}"></p>
             <input type="hidden" th:field="*{applicationId}" />
             <label>Video</label>
             <input type="file" th:field="*{video}" placeholder="nazwa" accept="video/mp4,video/x-m4v,video/*"/>
+            <video th:if="${job.videoUrl}" th:src="@{'/getFile/' + ${job.videoUrl}}" controls="controls"></video>
             <input type="file" th:field="*{cv}" placeholder="nazwa"  accept="application/pdf"/>
+            <a th:if="${job.cvUrl}" th:href="@{'/getFile/' + ${job.cvUrl}}">aktualne cv</a>
 
             <div><button type="submit">Zatwierdź</button></div>
         </form>
-
+        <form class="offerForm" th:action="@{delete}" method="post">
+            <div><button class="btn btn-error" type="submit">Anuluj podanie</button></div>
+        </form>
     </th:block>
     <th:block layout:fragment="js">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>

@@ -32,7 +32,7 @@ public class FileService{
     }
 
 
-    public void store(MultipartFile file, String folder, String name) throws StorageResolverException {
+    public String store(MultipartFile file, String folder, String name) throws Exception {
         Path p = Paths.get(rootLocation.toString(), folder);
         File directory = p.toFile();
         if(!directory.exists()){
@@ -46,11 +46,11 @@ public class FileService{
         }
         try {
             if (file.isEmpty()) {
-                throw new StorageResolverException("Failed to store empty file " + filename);
+                throw new Exception("Failed to store empty file " + filename);
             }
             if (filename.contains("..")) {
                 // This is a security check
-                throw new StorageResolverException(
+                throw new Exception(
                         "Cannot store file with relative path outside current directory "
                                 + filename);
             }
@@ -58,18 +58,19 @@ public class FileService{
                     StandardCopyOption.REPLACE_EXISTING);
         }
         catch (IOException e) {
-            throw new StorageResolverException("Failed to store file " + filename, e);
+            throw new Exception("Failed to store file " + filename, e);
         }
+        return filename;
     }
 
-    public Stream<Path> loadAll() throws StorageResolverException {
+    public Stream<Path> loadAll() throws Exception {
         try {
             return Files.walk(this.rootLocation, 1)
                     .filter(path -> !path.equals(this.rootLocation))
                     .map(path -> this.rootLocation.relativize(path));
         }
         catch (IOException e) {
-            throw new StorageResolverException("Failed to read stored files", e);
+            throw new Exception("Failed to read stored files", e);
         }
 
     }
@@ -100,12 +101,18 @@ public class FileService{
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
 
-    public void init() throws StorageResolverException {
+    public void init() throws Exception {
         try {
             Files.createDirectories(rootLocation);
         }
         catch (IOException e) {
-            throw new StorageResolverException("Could not initialize storage", e);
+            throw new Exception("Could not initialize storage", e);
         }
+    }
+
+    public void deleteFolder(String videoUrl) {
+        Path p = load(videoUrl).getParent();
+        System.out.println(p.toString());
+        FileSystemUtils.deleteRecursively(p.toFile());
     }
 }

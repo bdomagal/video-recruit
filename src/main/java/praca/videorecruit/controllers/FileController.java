@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 import praca.videorecruit.datamodel.Application;
+import praca.videorecruit.datamodel.Offer;
 import praca.videorecruit.repositories.ApplicationRepository;
+import praca.videorecruit.repositories.OfferRepository;
+import praca.videorecruit.repositories.PersonRepository;
+import praca.videorecruit.services.FileService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,20 +28,36 @@ import java.io.IOException;
 public class FileController {
 
     @Autowired
-    private ApplicationRepository applicationRepository;
-    private final static String BASE_PATH = "src/main/resources/userFiles/";
+    private OfferRepository offerRepository;
+
+    @Autowired
+    private PersonRepository personRepository;
+    @Autowired
+    private FileService fileService;
 
     @GetMapping(value = "/movie/{applicationId}")
     @ResponseBody
     public FileSystemResource plain(Authentication authentication, HttpServletResponse response, @PathVariable int applicationId) {
-        Application application = applicationRepository.findOne(applicationId);
-        String fileName = application.getVideoUrl();
-        String user = ""+application.getPerson().getAccountId();
-        File file = new File(BASE_PATH + user+"/"+fileName);
-        System.out.println(file.length());
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName()+"\"");
-        return new FileSystemResource(file);
+
+        return null;
     }
 
 
+    @GetMapping(value = "/getFile/{personId}/{offer}/{fileName:.+}")
+    @ResponseBody
+    public Resource getFile(Authentication authentication, HttpServletResponse response,
+                                      @PathVariable("offer") int offerId, @PathVariable("fileName") String filename,
+                            @PathVariable("personId") int personId) {
+        Offer offer = offerRepository.findOne(offerId);
+        if(personRepository.findOne(personId).getAccountByAccountId().getEmail()==authentication.getName()
+                || offer.getCompany().getAccountByAccountId().getEmail()==authentication.getName()){
+
+        }
+        try {
+            return fileService.loadAsResource(personId+"/"+offerId+"/"+filename);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

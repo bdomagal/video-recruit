@@ -1,6 +1,7 @@
 package praca.videorecruit.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import praca.videorecruit.datamodel.Company;
 import praca.videorecruit.datamodel.FieldOfBusiness;
@@ -24,9 +25,13 @@ public class OfferService {
     @Autowired
     CompanyRepository companyRepository;
 
-    public OfferDTO retrieveOffer(int id){
+    public OfferDTO retrieveOfferDTO(int id){
         Offer offer = offerRepository.findOne(id);
         return new OfferDTO(offer);
+    }
+
+    public Offer retrieveOffer(int id){
+        return offerRepository.findOne(id);
     }
     @Transactional
     public void saveOffer(OfferDTO dto, Company company){
@@ -36,7 +41,7 @@ public class OfferService {
         }
         if(offer==null){
             offer=new Offer();
-            offer.setCompanyByCompanyId(company);
+            offer.setCompany(company);
         }
         offer.setCity(dto.getCity());
         offer.setCountry(dto.getCountry());
@@ -62,5 +67,11 @@ public class OfferService {
     }
     public List<FieldOfBusiness> getAllFields(){
         return fieldOfBusinessRepository.findAll();
+    }
+
+    @Transactional
+    @Cacheable
+    public List<Offer> getOffers() {
+        return offerRepository.findAll();
     }
 }

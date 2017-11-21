@@ -15,6 +15,8 @@ public class Offer {
     private Company company;
     private List<FieldOfBusiness> positionTypes;
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "offerId", nullable = false)
@@ -116,11 +118,11 @@ public class Offer {
 
     @ManyToOne
     @JoinColumn(name = "companyId", referencedColumnName = "accountId", nullable = false)
-    public Company getCompanyByCompanyId() {
+    public Company getCompany() {
         return company;
     }
 
-    public void setCompanyByCompanyId(Company companyByCompanyId) {
+    public void setCompany(Company companyByCompanyId) {
         this.company = companyByCompanyId;
     }
 

@@ -15,4 +15,6 @@ public interface PersonRepository extends JpaRepository<Person, Integer> {
     ArrayList<Person> findByFieldOfBusinesses_Name(String name);
 
     ArrayList<Person> findByFirstNameAndLastName(String firstName, String lastName);
+
+    Person findByAccountByAccountId_Email(String email);
 }

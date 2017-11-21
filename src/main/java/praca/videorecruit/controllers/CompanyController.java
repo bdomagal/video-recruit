@@ -11,13 +11,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
-import praca.videorecruit.datamodel.FieldOfBusiness;
 import praca.videorecruit.repositories.CompanyRepository;
-import praca.videorecruit.repositories.FieldOfBusinessRepository;
 import praca.videorecruit.services.OfferDTO;
 import praca.videorecruit.services.OfferService;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Controller
@@ -57,7 +54,7 @@ public class CompanyController {
 
     @GetMapping("/{id}/createOffer")
     public String printOfferEdit(Model model, @PathVariable("id") int id){
-        model.addAttribute("offer", offerService.retrieveOffer(id));
+        model.addAttribute("offer", offerService.retrieveOfferDTO(id));
         model.addAttribute("fields", offerService.getAllFields());
         return "offerForm";
     }
