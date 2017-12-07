@@ -5,18 +5,19 @@
       layout:decorator="mainLayout">
 <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-    <link href="/css/offerForm.css" rel="stylesheet"/>
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
 </head>
 <body>
     <th:block layout:fragment="content">
-        <table border="1px">
-            <thead>
+        <table id="offers" border="1px">
+            <thead >
                 <tr>
                     <td>Nazwa stanowiska</td>
                     <td>Firma</td>
                     <td>Miasto</td>
                     <td>Dziedzina</td>
                     <td>Kraj</td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
@@ -34,8 +35,8 @@
 
     </th:block>
     <th:block layout:fragment="js">
-        <script type="text/javascript">
-        </script>
+        <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="/js/offerList.js"></script>
     </th:block>
 </body>
 </html>

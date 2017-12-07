@@ -22,6 +22,7 @@
                 </ul>
                 <ul sec:authorize="hasAnyRole('ROLE_COMPANY', 'ROLE_ADMIN')" class="nav navbar-nav">
                     <li class=""><a href="/createOffer">Dodaj ofertę</a></li>
+                    <li class=""><a href="/myOffers">Moje oferty</a></li>
                 </ul>
                 <div sec:authorize="isAnonymous()">
                     <ul class="nav navbar-nav navbar-right">

@@ -1,5 +1,6 @@
 package praca.videorecruit.controllers;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -48,8 +49,7 @@ public class CompanyController {
     public String createOffer(Model model, @ModelAttribute("offer") @Valid OfferDTO offerDTO, BindingResult result,
                               Authentication authentication, WebRequest request, Errors errors){
         offerService.saveOffer(offerDTO, companyRepository.findByAccountByAccountId_Email(authentication.getName()));
-        model.addAttribute("message", "Utworzono nową ofertę");
-        return "offerForm";
+        return "redirect:/createOffer?created=true";
     }
 
     @GetMapping("/{id}/createOffer")
@@ -65,5 +65,22 @@ public class CompanyController {
         offerService.saveOffer(offerDTO, companyRepository.findByAccountByAccountId_Email(authentication.getName()));
         model.addAttribute("message", "Zmodyfikowano ofertę");
         return "offerForm";
+    }
+    @GetMapping("/myOffers")
+    public String myOffers(Model model, Authentication authentication){
+        model.addAttribute("offers", offerService.getOffersByLogin(authentication.getName()));
+        return "offerList";
+    }
+
+    @GetMapping("/deleteOffer/{id}")
+    public String deleteOffer(Model model, Authentication authentication, @PathVariable("id") int id) throws MySQLIntegrityConstraintViolationException {
+        offerService.deleteOffer(id, authentication.getName());
+        return "redirect:/myOffers?del";
+    }
+
+    @GetMapping("/jobApplications")
+    public String printApplicationForm(Model model, @PathVariable("id") int id, Authentication authentication){
+        model.addAttribute("offer", offerService.retrieveOffer(id));
+        return "applicationForm";
     }
 }

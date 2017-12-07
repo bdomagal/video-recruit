@@ -9,4 +9,6 @@ import java.util.List;
 
 @Repository
 public interface OfferRepository extends JpaRepository<Offer, Integer> {
+    public List<Offer> findByCompany_AccountId(int id);
+    List<Offer> findByCompany_AccountByAccountId_Email(String email);
 }

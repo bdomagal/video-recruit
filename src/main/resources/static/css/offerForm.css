@@ -21,6 +21,10 @@ textarea {
     margin-bottom:10px;
 }
 
+.select2-container {
+    width: 80% !important;
+    max-width: 600px;
+}
 select, input, textarea {
     font-size: 1em;
     padding: 15px 10px 10px;
@@ -96,6 +100,10 @@ label.error {
     body {
         padding-top:10px;
     }
+
+    .select2-container {
+        width: 90% !important;
+    }
 }
 .message {
     font-family:'Source Sans Pro',arial,sans-serif;
@@ -115,3 +123,11 @@ label{
     display: block;
     margin-top: 10px;
 }
+.saved{
+
+    position: relative;
+    height: 50px;
+    left: 0%;
+    width: 100%;
+}
+
