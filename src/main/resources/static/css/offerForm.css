@@ -1,3 +1,6 @@
+body{
+    margin-bottom:40px;
+}
 .offerForm{
     width: 100%;
     background-color: darkgray;
@@ -131,3 +134,16 @@ label{
     width: 100%;
 }
 
+.modal-dialog .btn{
+    display: inline-block;
+    margin-top: 0px;
+    width: 150px;
+}
+h1{
+    text-align: center;
+}
+
+.del{
+    display: inline-block;
+    float:right;
+}

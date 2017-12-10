@@ -2,3 +2,7 @@
     color: #444;
     content: ' ▾';
 }
+.tableInput{
+    display: inline;
+    width: 80px;
+}

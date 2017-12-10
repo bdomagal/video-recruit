@@ -6,6 +6,7 @@
       layout:decorator="mainLayout">
 <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="/css/offerForm.css" rel="stylesheet"/>
 </head>
 <body>
@@ -35,35 +36,81 @@
             </form>
         </div>
         <th:block th:if="${#authentication.getName() == offer.company.accountByAccountId.email}">
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
 
-            <div >
-                <a th:href="'/deleteOffer/'+${offer.offerId}">Usuń ofertę</a>
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Uwaga</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Czy na pewno chcesz usunąć ofertę? Ta czynność jest nieodwracalna. Po ponownym dodaniu oferty już otrzymane podania nie będą widoczne</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" th:href="'/deleteOffer/'+${offer.offerId}" data-dismiss="modal">Usuń
+                            </button>
+                            <button type="button" class="btn btn-success " data-dismiss="modal">Nie usuwaj
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-            <table id="offers" border="1px">
-                <thead >
-                <tr>
-                    <td>Nazwa stanowiska</td>
-                    <td>Firma</td>
-                    <td>Miasto</td>
-                    <td>Dziedzina</td>
-                    <td>Kraj</td>
-                    <td></td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="application : ${offer.applicationsByOfferId}">
-                    <td th:text="${application.person.firstName}"></td>
-                    <td th:text="${application.person.lastName}"></td>
-                    <td>
-                        <a th:if="${application.cvUrl}" th:href="@{'/getFile/' + ${application.cvUrl}}">Cv</a>
-                    </td>
-                    <td>
-                        <a th:if="${application.videoUrl}" th:href="@{'/getFile/' + ${application.videoUrl}}" target="_blank">Pobierz video</a><br/>
-                    </td>
-                    <td th:text="${application.status}">Kraj</td>
-                </tr>
-                </tbody>
-            </table>
+            <div >
+                <a class="btn btn-warning" th:href="@{'/'+${offer.offerId}+'/createOffer'}">Edytuj ofertę</a>
+                <a class="btn btn-danger btn-sm del" data-toggle="modal" data-target="#myModal">Usuń ofertę <span class="glyphicon glyphicon-remove"></span></a>
+            </div>
+            <hr/>
+            <h1>Lista otrzymanych podań</h1>
+            <form th:action="@{/updateStatus}" th:object="${offer}" th:method="post">
+                <input type="hidden" th:field="*{offerId}"/>
+                <table class="display" id="offers" cellspacing="0" width="100%" >
+                    <thead >
+                    <tr>
+                        <td>Imię</td>
+                        <td>Nazwisko</td>
+                        <td>Cv</td>
+                        <td>Video</td>
+                        <td>Status</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="application,rowStat  : ${offer.applicationsByOfferId}">
+                        <td th:text="${application.person.firstName}"></td>
+                        <td th:text="${application.person.lastName}"></td>
+                        <td>
+                            <input type="hidden" th:field="*{applicationsByOfferId[__${rowStat.index}__].applicationId}"/>
+                            <a class="btn btn-default" th:if="${application.cvUrl}" th:href="@{'/getFile/' + ${application.cvUrl}}">Cv <span class="glyphicon glyphicon-download"></span></a>
+                        </td>
+                        <td>
+                            <a class="btn btn-default" th:if="${application.videoUrl}" th:href="@{'/getFile/' + ${application.videoUrl}}" target="_blank">Obejrzyj video <span class="glyphicon glyphicon-download"></span></a><br/>
+                        </td>
+                        <td>
+                            <select class="status" th:field="*{applicationsByOfferId[__${rowStat.index}__].status}">
+                                <option th:value="submitted">złożone</option>
+                                <option th:value="tentative">Wstępnie akceptowane</option>
+                                <option th:value="accepted">Zaakceptowane</option>
+                                <option th:value="rejected">Odrzucone</option>
+                            </select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <input class="btn btn-primary" type="submit" value="Zapisz zmiany statusów"/>
+            </form>
+            <div id="changesSaved" class="modal fade" role="alert">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Zmiany zostały zapisane</h4>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success " data-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </th:block>
     </th:block>
     <th:block layout:fragment="js">
@@ -75,10 +122,17 @@
                 placeholder: "Wybierz dziedzine oferty"
             });
             $('#title').select2();
+            $('.status').select2();
+
         </script>
         <th:block th:if="${#authentication.getName() == offer.company.accountByAccountId.email}">
             <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
             <script type="text/javascript" src="/js/offerList.js"></script>
+            <script th:if="${param.s}" type="text/javascript">
+                $(window).on('load',function(){
+                    $('#changesSaved').modal('show');
+                });
+            </script>
         </th:block>
     </th:block>
 </body>

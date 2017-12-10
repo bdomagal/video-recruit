@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
+import praca.videorecruit.datamodel.Offer;
 import praca.videorecruit.repositories.CompanyRepository;
 import praca.videorecruit.services.OfferDTO;
 import praca.videorecruit.services.OfferService;
@@ -63,8 +64,7 @@ public class CompanyController {
     public String editOffer(Model model, @ModelAttribute("offer") @Valid OfferDTO offerDTO, BindingResult result,
                               Authentication authentication, WebRequest request, Errors errors){
         offerService.saveOffer(offerDTO, companyRepository.findByAccountByAccountId_Email(authentication.getName()));
-        model.addAttribute("message", "Zmodyfikowano ofertę");
-        return "offerForm";
+        return "redirect:/offer/"+offerDTO.getOfferId()+"?s=true";
     }
     @GetMapping("/myOffers")
     public String myOffers(Model model, Authentication authentication){
@@ -82,5 +82,11 @@ public class CompanyController {
     public String printApplicationForm(Model model, @PathVariable("id") int id, Authentication authentication){
         model.addAttribute("offer", offerService.retrieveOffer(id));
         return "applicationForm";
+    }
+
+    @PostMapping("updateStatus")
+    public String updateStatus(@ModelAttribute("offer") Offer offer){
+        boolean b = offerService.updateStatus(offer);
+        return "redirect:/offer/"+offer.getOfferId()+"?s=" + b;
     }
 }

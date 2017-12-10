@@ -101,4 +101,11 @@ public class OfferService {
             throw new AccessDeniedException("Nie możesz usuwać cudzych ofert.");
         }
     }
+
+
+    @Transactional
+    public boolean updateStatus(Offer offer){
+        applicationService.updateStatus(offer.getApplicationsByOfferId(), offer.getOfferId());
+        return true;
+    }
 }

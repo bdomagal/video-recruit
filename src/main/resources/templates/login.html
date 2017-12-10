@@ -14,6 +14,9 @@ xmlns:th="http://www.thymeleaf.org">
             <div th:if="${param.logout}">
                 Pomyślnie wylogowano.
             </div>
+            <div th:if="${param.register}">
+                Zarejestrowano, możesz się zalogować.
+            </div>
             <input name="username" type="text" placeholder="email"/>
             <input name="password" type="password" placeholder="password"/>
             <button type="submit">login</button>

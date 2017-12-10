@@ -29,7 +29,7 @@ public class JobApplicationController {
     @Autowired
     PersonRepository personRepository;
 
-    @GetMapping("/apply/{id}/new")
+    @GetMapping({"/apply/{id}/new", "/offer/{id}"})
     public String printApplicationForm(Model model, @PathVariable("id") int id, Authentication authentication){
         Application app = applicationRepository.findByOffer_OfferIdAndPerson_AccountByAccountId_Email(id, authentication.getName());
         model.addAttribute("offer", offerService.retrieveOffer(id));
