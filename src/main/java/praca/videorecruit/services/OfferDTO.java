@@ -111,8 +111,10 @@ public class OfferDTO {
         this.country = offer.getCountry();
         this.offerId = offer.getOfferId();
         this.positionTypes = new ArrayList<>();
-        for (FieldOfBusiness positionType : offer.getPositionTypes()) {
-            this.positionTypes.add(positionType.getName());
+        if(offer.getPositionTypes()!=null) {
+            for (FieldOfBusiness positionType : offer.getPositionTypes()) {
+                this.positionTypes.add(positionType.getName());
+            }
         }
     }
     public OfferDTO() {

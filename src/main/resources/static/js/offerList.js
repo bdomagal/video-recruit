@@ -25,5 +25,4 @@ $(document).ready(function () {
     });
     $(".dataTables_length select").addClass("form-control tableInput");
     $(".dataTables_filter input").addClass("form-control")
-    location.
 });

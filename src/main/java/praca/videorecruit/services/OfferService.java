@@ -93,6 +93,9 @@ public class OfferService {
 
     public void deleteOffer(int id, String name) throws MySQLIntegrityConstraintViolationException {
         Offer offer = offerRepository.findOne(id);
+        if(offer == null){
+            return;
+        }
         if(offer.getCompany().getAccountByAccountId().getEmail().equals(name)){
             applicationService.deleteAll(offer.getApplicationsByOfferId());
             offerRepository.delete(id);

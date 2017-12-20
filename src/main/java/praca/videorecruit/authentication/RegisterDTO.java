@@ -23,6 +23,16 @@ public class RegisterDTO {
     @NotEmpty(message = "{email.notnull}")
     private String email;
 
+    private String phone;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getFirstName() {
         return firstName;
     }

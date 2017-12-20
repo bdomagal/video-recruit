@@ -58,6 +58,7 @@ public class UserService {
             account.setPassword(passwordEncoder.encode(user.getPassword()));
             account.setStatus("nActive");
             account.getRoles().add(roleRepository.findByName("ROLE_USER"));
+            account.setPhone(user.getPhone());
             accountRepository.save(account);
             Person p= new Person();
             p.setAccountByAccountId(accountRepository.findByEmail(user.getEmail()));
@@ -99,6 +100,7 @@ public class UserService {
             account.setPassword(passwordEncoder.encode(user.getPasswordComp()));
             account.setStatus("nActive");
             account.getRoles().add(roleRepository.findByName("ROLE_COMPANY"));
+            account.setPhone(user.getPhone());
             accountRepository.save(account);
             Company p= new Company();
             p.setAccountByAccountId(accountRepository.findByEmail(user.getEmail()));
