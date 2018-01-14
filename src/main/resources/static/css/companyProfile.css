@@ -1,0 +1,15 @@
+.logo{
+    width:200px;
+}
+
+div.logoContainer{
+    float:left;
+    padding: 20px;
+}
+
+.profile .description{
+    font-size: 16px;
+}
+.profile{
+    background-color: lightgrey;
+}

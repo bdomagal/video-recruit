@@ -6,7 +6,9 @@ import praca.videorecruit.datamodel.FieldOfBusiness;
 import praca.videorecruit.datamodel.Offer;
 
 import javax.validation.constraints.NotNull;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -24,6 +26,7 @@ public class OfferDTO {
     @NotNull(message = "{required")
     @NotEmpty(message = "{required}")
     private String country;
+    private String posted;
     private List<String> positionTypes = new ArrayList<>();
 
     public String getName() {
@@ -68,6 +71,14 @@ public class OfferDTO {
 
     public List<String> getPositionTypes() {
         return positionTypes;
+    }
+
+    public String getPosted() {
+        return posted;
+    }
+
+    public void setPosted(String posted) {
+        this.posted = posted;
     }
 
     public void setPositionTypes(List<String> positionTypes) {
@@ -116,6 +127,9 @@ public class OfferDTO {
                 this.positionTypes.add(positionType.getName());
             }
         }
+        Date post = offer.getPostedOn();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        this.posted = sdf.format(post);
     }
     public OfferDTO() {
         positionTypes = new ArrayList<>();

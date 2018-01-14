@@ -9,7 +9,7 @@ public class Company {
     private String name;
     private String address;
     private String description;
-    private String shortDesc;
+    private String homePage;
     private String imageUrl;
     private Account accountByAccountId;
     private List<Offer> offersByAccountId;
@@ -55,13 +55,13 @@ public class Company {
     }
 
     @Basic
-    @Column(name = "shortDesc", nullable = true, length = 500)
-    public String getShortDesc() {
-        return shortDesc;
+    @Column(name = "homePage", nullable = true, length = 2000)
+    public String getHomePage() {
+        return homePage;
     }
 
-    public void setShortDesc(String shortDesc) {
-        this.shortDesc = shortDesc;
+    public void setHomePage(String shortDesc) {
+        this.homePage = shortDesc;
     }
 
     @Basic
@@ -85,7 +85,7 @@ public class Company {
         if (name != null ? !name.equals(company.name) : company.name != null) return false;
         if (address != null ? !address.equals(company.address) : company.address != null) return false;
         if (description != null ? !description.equals(company.description) : company.description != null) return false;
-        if (shortDesc != null ? !shortDesc.equals(company.shortDesc) : company.shortDesc != null) return false;
+        if (homePage != null ? !homePage.equals(company.homePage) : company.homePage != null) return false;
         if (imageUrl != null ? !imageUrl.equals(company.imageUrl) : company.imageUrl != null) return false;
 
         return true;
@@ -97,7 +97,7 @@ public class Company {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (shortDesc != null ? shortDesc.hashCode() : 0);
+        result = 31 * result + (homePage != null ? homePage.hashCode() : 0);
         result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
         return result;
     }

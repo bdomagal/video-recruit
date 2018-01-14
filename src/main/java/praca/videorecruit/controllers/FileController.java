@@ -60,4 +60,17 @@ public class FileController {
         }
         return null;
     }
+
+    @GetMapping(value = "/getFile/{companyId}/{fileName:.+}")
+    @ResponseBody
+    public Resource getLogo(Authentication authentication, HttpServletResponse response,
+                            @PathVariable("fileName") String filename,
+                            @PathVariable("companyId") int companyId) {
+        try {
+            return fileService.loadAsResource(companyId+"/"+filename);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

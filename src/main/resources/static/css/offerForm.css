@@ -147,3 +147,13 @@ h1{
     display: inline-block;
     float:right;
 }
+
+.posted{
+    font-size: large;
+    font-weight: 200;
+    color: gray;
+    float:right;
+}
+input{
+    margin:auto;
+}

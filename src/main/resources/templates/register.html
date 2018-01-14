@@ -33,7 +33,7 @@ xmlns:th="http://www.thymeleaf.org">
             <div th:if="${#fields.errors('password').size()>0}" class="alert alert-danger fade in alert-dismissable" >
                 <span th:each="error: ${#fields.errors('password')}" th:text="${error}+' '">Validation error</span>
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>
-            <button>create</button>
+            <button>Stwórz</button>
             <p class="message"><a href="#">Stwórz konto firmowe</a></p>
         </form>
         <form class="register-form" th:object="${company}" method="post" th:action="@{/registerComp}">
@@ -55,7 +55,7 @@ xmlns:th="http://www.thymeleaf.org">
             <div th:if="${#fields.errors('passwordComp').size()>0}" class="alert alert-danger fade in alert-dismissable" >
                 <span th:each="error: ${#fields.errors('passwordComp2')}" th:text="${error}+' '">Validation error</span>
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>
-            <button>login</button>
+            <button>Stwórz</button>
             <p class="message"><a href="#">Stwórz konto osobiste</a></p>
         </form>
     </div>

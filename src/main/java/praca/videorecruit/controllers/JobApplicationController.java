@@ -37,9 +37,9 @@ public class JobApplicationController {
         return "applicationForm";
     }
 
-    @PostMapping("/apply/{id}/new")
+    @PostMapping({"/apply/{id}/new", "/offer/{id}"})
     public String saveJobAppl(Authentication authentication,
-            Model model, @PathVariable("id") int id, @ModelAttribute("job") ApplicationDTO applicationDTO){
+            @PathVariable("id") int id, @ModelAttribute("job") ApplicationDTO applicationDTO){
         int accountId = personRepository.findByAccountByAccountId_Email(authentication.getName()).getAccountId();
         try {
             Application app=applicationRepository.findByOffer_OfferIdAndPerson_AccountByAccountId_Email(id, authentication.getName());
@@ -52,13 +52,10 @@ public class JobApplicationController {
             app.setStatus("submitted");
             app.setPerson(personRepository.findByAccountByAccountId_Email(authentication.getName()));
             applicationRepository.save(app);
-            applicationDTO = new ApplicationDTO(app);
         } catch (Exception e) {
 
         }
-        model.addAttribute("job", applicationDTO);
-        model.addAttribute("offer", offerService.retrieveOffer(id));
-        return "applicationForm";
+        return "redirect:/apply/"+id+"/new?s=true";
     }
 
     @GetMapping("/offers")
@@ -75,7 +72,7 @@ public class JobApplicationController {
             applicationRepository.delete(application);
             fileService.deleteFolder(application.getVideoUrl());
         }
-        return "redirect:/apply/{id}/new";
+        return "redirect:/apply/"+offerId+"/new?s=true";
     }
 
 }

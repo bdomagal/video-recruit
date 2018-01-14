@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="mainLayout">
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="/css/offerForm.css" rel="stylesheet"/>
+</head>
+<body>
+    <th:block layout:fragment="content">
+
+        <form class="offerForm" th:action="@{/myProfile/company/edit}" method="post" th:object="${company}" enctype="multipart/form-data">
+            <div class=" saved alert alert-success  fade in alert-dismissable" th:if="${#httpServletRequest.getParameter('created')}">
+                <strong>Zmiany zostały zapisane</strong>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            </div>
+            <h1>Edytuj profil</h1>
+            <label>Obecne logo</label>
+            <div class="logoContainer">
+                <img class="logo" th:if="${company.imageUrl}" th:src="@{'/getFile/' + ${company.imageUrl}}" alt="company logo"/>
+                <img class="logo" th:if="${company.imageUrl==null}" src="/img/no-img.jpg" alt="company logo"/>
+            </div>
+            <p th:text="${message}"></p>
+            <input type="hidden" th:field="*{accountId}"/>
+            <label>Nazwa</label>
+            <input type="text" th:field="*{name}" placeholder="nazwa"/>
+            <label>Opis</label>
+            <textarea type="text" th:field="*{description}" placeholder="opis"/>
+            <label>Strona firmy</label>
+            <input type="text" th:field="*{homePage}" placeholder="http://www.example.com"/>
+            <label>Adres</label>
+            <input type="text" th:field="*{address}" placeholder="Adres siedziby"/>
+            <label>Logo(max 500kB):</label>
+            <input th:field="*{image}" type="file" accept="image/jpeg"/>
+            <div><button type="submit">Zatwierdź</button></div>
+        </form>
+
+    </th:block>
+    <th:block layout:fragment="js">
+    </th:block>
+</body>
+</html>

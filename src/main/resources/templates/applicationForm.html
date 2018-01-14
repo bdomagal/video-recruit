@@ -12,8 +12,9 @@
 <body>
     <th:block layout:fragment="content">
 
-        <h1 th:text="${offer.name}"></h1>
-        <h2 th:text="${offer.company.name}"></h2>
+        <h1 th:text="${offer.company.name}"></h1>
+        <span class="posted" th:text="${'Oferta ważna od: ' + #dates.format(offer.postedOn, 'yyyy-MM-dd')}"></span>
+        <h2 th:text="${offer.name}"></h2>
         <p th:text="${offer.description}"></p>
         <ul th:each="field : ${offer.positionTypes}">
             <li th:text="${field.name}"></li>
@@ -99,19 +100,19 @@
                 </table>
                 <input class="btn btn-primary" type="submit" value="Zapisz zmiany statusów"/>
             </form>
-            <div id="changesSaved" class="modal fade" role="alert">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Zmiany zostały zapisane</h4>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success " data-dismiss="modal">OK</button>
-                        </div>
+        </th:block>
+        <div id="changesSaved" class="modal fade" role="alert">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Zmiany zostały zapisane</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success " data-dismiss="modal">OK</button>
                     </div>
                 </div>
             </div>
-        </th:block>
+        </div>
     </th:block>
     <th:block layout:fragment="js">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
@@ -128,12 +129,12 @@
         <th:block th:if="${#authentication.getName() == offer.company.accountByAccountId.email}">
             <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
             <script type="text/javascript" src="/js/offerList.js"></script>
-            <script th:if="${param.s}" type="text/javascript">
-                $(window).on('load',function(){
-                    $('#changesSaved').modal('show');
-                });
-            </script>
         </th:block>
+        <script th:if="${param.s}" type="text/javascript">
+            $(window).on('load',function(){
+                $('#changesSaved').modal('show');
+            });
+        </script>
     </th:block>
 </body>
 </html>
