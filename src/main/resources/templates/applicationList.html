@@ -9,7 +9,7 @@
 </head>
 <body>
     <th:block layout:fragment="content">
-        <h1>Oferty pracy</h1>
+        <h1>Moje podania</h1>
         <table class="display" cellspacing="0" width="100%" id="offers" >
             <thead >
                 <tr>
@@ -18,17 +18,19 @@
                     <td>Miasto</td>
                     <td>Dziedzina</td>
                     <td>Kraj</td>
+                    <td>Status</td>
                     <td></td>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="offer : ${offers}">
-                    <td th:text="${offer.name}">Nazwa stanowiska</td>
-                    <td th:text="${offer.company.name}">Firma</td>
-                    <td th:text="${offer.city}">Miasto</td>
-                    <td ><span th:each="field : ${offer.positionTypes}" th:text="${field.name}+', '"></span></td>
-                    <td th:text="${offer.country}">Kraj</td>
-                    <td ><a class="btn btn-primary" th:href="@{'apply/' + ${offer.offerId} + '/new'}">Szczegóły</a></td>
+                <tr th:each="application : ${applications}">
+                    <td th:text="${application.offer.name}">Nazwa stanowiska</td>
+                    <td th:text="${application.offer.company.name}">Firma</td>
+                    <td th:text="${application.offer.city}">Miasto</td>
+                    <td ><span th:each="field : ${application.offer.positionTypes}" th:text="${field.name}+', '"></span></td>
+                    <td th:text="${application.offer.country}">Kraj</td>
+                    <td th:text="${application.status}">Kraj</td>
+                    <td ><a class="btn btn-primary" th:href="@{'apply/' + ${application.offer.offerId} + '/new'}">Szczegóły</a></td>
                 </tr>
             </tbody>
         </table>

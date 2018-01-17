@@ -1,6 +1,5 @@
 package praca.videorecruit.controllers;
 
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolverException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -10,12 +9,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import praca.videorecruit.datamodel.Application;
-import praca.videorecruit.repositories.AccountRepository;
+import praca.videorecruit.datamodel.Offer;
 import praca.videorecruit.repositories.ApplicationRepository;
 import praca.videorecruit.repositories.PersonRepository;
 import praca.videorecruit.services.ApplicationDTO;
 import praca.videorecruit.services.FileService;
 import praca.videorecruit.services.OfferService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class JobApplicationController {
@@ -66,7 +68,6 @@ public class JobApplicationController {
 
     @PostMapping("/apply/{id}/delete")
     public String deleteApplication(Authentication authentication, @PathVariable("id") int offerId){
-        int accountId = personRepository.findByAccountByAccountId_Email(authentication.getName()).getAccountId();
         Application application = applicationRepository.findByOffer_OfferIdAndPerson_AccountByAccountId_Email(offerId, authentication.getName());
         if(application!=null){
             applicationRepository.delete(application);
@@ -75,4 +76,10 @@ public class JobApplicationController {
         return "redirect:/apply/"+offerId+"/new?s=true";
     }
 
+    @GetMapping("/myProfile/applications")
+    public String getMyApplications(Authentication authentication, Model model){
+        List<Application> applicationList = applicationRepository.findByPerson_AccountByAccountId_Email(authentication.getName());
+        model.addAttribute("applications", applicationList);
+        return "applicationList";
+    }
 }

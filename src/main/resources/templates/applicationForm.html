@@ -12,28 +12,32 @@
 <body>
     <th:block layout:fragment="content">
 
-        <h1 th:text="${offer.company.name}"></h1>
+        <a th:href="@{'/company/'+ ${offer.company.accountId} + '/profile' }"><h1 th:text="${offer.company.name}"></h1></a>
         <span class="posted" th:text="${'Oferta ważna od: ' + #dates.format(offer.postedOn, 'yyyy-MM-dd')}"></span>
         <h2 th:text="${offer.name}"></h2>
         <p th:text="${offer.description}"></p>
-        <ul th:each="field : ${offer.positionTypes}">
+        <span class="fields-of-bussiness">Dziedziny:</span>
+        <ul class="fields-of-bussiness" th:each="field : ${offer.positionTypes}">
             <li th:text="${field.name}"></li>
         </ul>
         <div sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
-            <form class="offerForm" th:action="@{new}" method="post" th:object="${job}" enctype="multipart/form-data" >
-                <h1>Złóż podanie</h1>
+            <form th:if="${job.videoUrl} or ${job.cvUrl}" class="offerForm" th:action="@{delete}" method="post">
+                <h1>Twoje podanie, status - <span th:text="${job.status}"></span> </h1>
+                <label>Aktualne video</label>
+                <video th:if="${job.videoUrl}" th:src="@{'/getFile/' + ${job.videoUrl}}" controls="controls" width="400px"></video>
+                <a class="btn btn-success" target="_blank" th:if="${job.cvUrl}" th:href="@{'/getFile/' + ${job.cvUrl}}">aktualne cv</a>
+                <div><button class="btn btn-danger" type="submit">Anuluj podanie</button></div>
+            </form>
+            <form th:if="${job.status} != 'accepted' and ${job.status} != 'tentative'" class="offerForm" th:action="@{new}" method="post" th:object="${job}" enctype="multipart/form-data" >
+                <h1 th:if="!(${job.videoUrl} or ${job.cvUrl})">Złóż podanie</h1>
+                <h1 th:if="(${job.videoUrl} or ${job.cvUrl})">Edytuj podanie</h1>
                 <p th:text="${message}"></p>
                 <input type="hidden" th:field="*{applicationId}" />
                 <label>Video</label>
                 <input type="file" th:field="*{video}" placeholder="nazwa" accept="video/mp4,video/x-m4v,video/*"/>
-                <video th:if="${job.videoUrl}" th:src="@{'/getFile/' + ${job.videoUrl}}" controls="controls"></video>
                 <input type="file" th:field="*{cv}" placeholder="nazwa"  accept="application/pdf"/>
-                <a th:if="${job.cvUrl}" th:href="@{'/getFile/' + ${job.cvUrl}}">aktualne cv</a>
 
-                <div><button type="submit">Zatwierdź</button></div>
-            </form>
-            <form class="offerForm" th:action="@{delete}" method="post">
-                <div><button class="btn btn-error" type="submit">Anuluj podanie</button></div>
+                <div><button class="btn btn-primary" type="submit">Zatwierdź</button></div>
             </form>
         </div>
         <th:block th:if="${#authentication.getName() == offer.company.accountByAccountId.email}">

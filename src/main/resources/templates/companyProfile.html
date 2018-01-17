@@ -12,6 +12,7 @@
             <div class="logoContainer">
                 <img class="logo" th:if="${company.imageUrl}" th:src="@{'/getFile/' + ${company.imageUrl}}" alt="company logo"/>
                 <img class="logo" th:if="${company.imageUrl==null}" src="/img/no-img.jpg" alt="company logo"/>
+                <a th:href="@{${company.homePage}}" class="btn btn-primary logo">Strona firmy</a>
             </div>
             <h1 th:text="${company.name}"></h1>
             <p class="description" th:text="${company.description}"></p>

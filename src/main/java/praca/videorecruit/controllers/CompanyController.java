@@ -33,6 +33,12 @@ public class CompanyController {
     @Autowired
     FileService fileService;
 
+    @GetMapping("company/{id}/profile")
+    public String getCompany(Model model, @PathVariable("id") int id){
+        model.addAttribute("company", companyRepository.findByAccountId(id));
+        return "companyProfile";
+    }
+
     @GetMapping("/myProfile/company")
     public String companyProfile(Model model, Authentication authentication){
         model.addAttribute("company", companyRepository.findByAccountByAccountId_Email(authentication.getName()));
