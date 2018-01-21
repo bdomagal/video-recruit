@@ -4,12 +4,19 @@
       xmlns:th="http://www.thymeleaf.org"
       layout:decorator="mainLayout">
 <head>
+    <link href="/css/companyProfile.css" rel="stylesheet"/>
 </head>
 <body>
     <th:block layout:fragment="content">
-        <h1 th:text="${comapny.name}"></h1>
-        <
-
+        <div class="container-fluid profile">
+            <div class="logoContainer">
+                <img class="logo" th:if="${company.imageUrl}" th:src="@{'/getFile/' + ${company.imageUrl}}" alt="company logo"/>
+                <img class="logo" th:if="${company.imageUrl==null}" src="/img/no-img.jpg" alt="company logo"/>
+                <a th:href="@{${company.homePage}}" class="btn btn-primary logo">Strona firmy</a>
+            </div>
+            <h1 th:text="${company.name}"></h1>
+            <p class="description" th:text="${company.description}"></p>
+        </div>
     </th:block>
 </body>
 </html>

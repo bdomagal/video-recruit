@@ -1,6 +1,7 @@
 package praca.videorecruit.datamodel;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -12,6 +13,7 @@ public class Offer {
     private String city;
     private String country;
     private List<Application> applicationsByOfferId;
+    private Date postedOn;
     private Company company;
     private List<FieldOfBusiness> positionTypes;
 
@@ -139,5 +141,15 @@ public class Offer {
 
     public void setPositionTypes(List<FieldOfBusiness> positionTypesByOfferId) {
         this.positionTypes = positionTypesByOfferId;
+    }
+
+    @Basic
+    @Column(name = "postedOn", nullable = false, length = 255)
+    public Date getPostedOn() {
+        return postedOn;
+    }
+
+    public void setPostedOn(Date postedOn) {
+        this.postedOn = postedOn;
     }
 }

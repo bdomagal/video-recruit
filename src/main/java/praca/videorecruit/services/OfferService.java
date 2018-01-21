@@ -17,6 +17,7 @@ import praca.videorecruit.repositories.OfferRepository;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -49,6 +50,7 @@ public class OfferService {
         if(offer==null){
             offer=new Offer();
             offer.setCompany(company);
+            offer.setPostedOn(new Date());
         }
         offer.setCity(dto.getCity());
         offer.setCountry(dto.getCountry());

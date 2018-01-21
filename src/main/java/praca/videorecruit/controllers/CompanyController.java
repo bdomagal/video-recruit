@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MultipartFile;
+import praca.videorecruit.datamodel.Company;
 import praca.videorecruit.datamodel.Offer;
 import praca.videorecruit.repositories.CompanyRepository;
+import praca.videorecruit.services.CompanyDTO;
+import praca.videorecruit.services.FileService;
 import praca.videorecruit.services.OfferDTO;
 import praca.videorecruit.services.OfferService;
 
@@ -26,19 +30,42 @@ public class CompanyController {
     CompanyRepository companyRepository;
     @Autowired
     OfferService offerService;
+    @Autowired
+    FileService fileService;
+
+    @GetMapping("company/{id}/profile")
+    public String getCompany(Model model, @PathVariable("id") int id){
+        model.addAttribute("company", companyRepository.findByAccountId(id));
+        return "companyProfile";
+    }
 
     @GetMapping("/myProfile/company")
     public String companyProfile(Model model, Authentication authentication){
-        model.addAttribute(companyRepository.findByAccountByAccountId_Email(authentication.getName()));
+        model.addAttribute("company", companyRepository.findByAccountByAccountId_Email(authentication.getName()));
         return "companyProfile";
     }
 
     @GetMapping("/myProfile/company/edit")
-    public String companyEdit(Model model, Authentication authentication){
-        model.addAttribute(companyRepository.findByAccountByAccountId_Email(authentication.getName()));
+    public String companyEditForm(Model model, Authentication authentication){
+        model.addAttribute("company", new CompanyDTO(companyRepository.findByAccountByAccountId_Email(authentication.getName())));
         return "companyEditForm";
     }
 
+    @PostMapping("/myProfile/company/edit")
+    public String companyEdit(@ModelAttribute("company") CompanyDTO companyDTO) throws Exception {
+        Company company = companyRepository.getOne(companyDTO.getAccountId());
+        company.setDescription(companyDTO.getDescription());
+        company.setName(companyDTO.getName());
+        company.setAddress(companyDTO.getAddress());
+        company.setHomePage(companyDTO.getHomePage());
+        MultipartFile image = companyDTO.getImage();
+        if(image!=null&&!image.isEmpty()) {
+            String imageUrl = fileService.store(image, companyDTO.getAccountId() + "/", "logo");
+            company.setImageUrl(companyDTO.getAccountId() + "/"+imageUrl);
+        }
+        companyRepository.save(company);
+        return "redirect:/myProfile/company/edit?created=true";
+    }
     @GetMapping("/createOffer")
     public String printOfferForm(Model model){
         model.addAttribute("offer", new OfferDTO());

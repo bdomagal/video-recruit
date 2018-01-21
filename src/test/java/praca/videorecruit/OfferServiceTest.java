@@ -62,7 +62,6 @@ public class OfferServiceTest {
         c.setName("TestCompany");
         c.setAccountId(1);
         c.setDescription("This is a test Company");
-        c.setShortDesc("Tis is Test");
         Mockito.when(companyRepository.findByAccountByAccountId_Email("test@test.com")).thenReturn(c);
         Account a1 =  new Account();
         a1.setEmail("test1@test.com");
@@ -75,7 +74,6 @@ public class OfferServiceTest {
         c1.setName("TestCompany1");
         c1.setAccountId(2);
         c1.setDescription("This is a test Company1");
-        c1.setShortDesc("Tis is Test1");
         Mockito.when(companyRepository.findByAccountByAccountId_Email("test1@test.com")).thenReturn(c1);
         Offer o = new Offer();
         o.setName("Test Offer");
