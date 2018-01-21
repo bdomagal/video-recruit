@@ -12,8 +12,6 @@ import praca.videorecruit.repositories.AccountRepository;
 @SpringBootTest
 public class VideorecruitApplicationTests {
 
-	@Autowired
-	AccountRepository accountRepository;
 	@Test
 	public void contextLoads() {
 	}

@@ -1,22 +1,33 @@
 ﻿Jako pracownik chcę
-	założyć konto 					aby zapamiętać część danych
+-	założyć konto 					aby zapamiętać część danych
 	przeglądać oferty pracy 			aby znaleźć najbardziej odpowiednią
 	aplikować na stanowisko 			aby zdobyć posadę
 	załączyć film do podania 			aby przekazaćdodatkowe informacje
-	pokazać, że szukam pracy 			aby umożliwić pracodawcą znalezienie mnie
-	podać w jakich dziedzinach szukam pracy		aby ułatwić pracodawcy wyszukanie mnie
+--	pokazać, że szukam pracy 			aby umożliwić pracodawcą znalezienie mnie
+--	podać w jakich dziedzinach szukam pracy		aby ułatwić pracodawcy wyszukanie mnie
 	dodawać załączniki do zgłoszenia 		aby spełnić wymogi oferty
 	by dane, które podaje były zabezpieczone, 	aby uniknąć ich kradzieży
-	otrzymywać powiadomienia o postępie podań	aby być na bieżąco w przypadku ich akceptacji/odrzucenia
+-	otrzymywać powiadomienia o postępie podań	aby być na bieżąco w przypadku ich akceptacji/odrzucenia
 
 Jako pracodawca chcę
 	zamieszczać oferty pracy			aby potencjalni pracownicy mogli na nie aplikować
 	podawać opis oferty				aby doprecyzować otwartą pozycję
 	podawać wymagania do oferty			aby uzyskać podania od odpowiednich ludzi
-????????otrzymywać powiadomienia o nowych podaniach	aby możliwie szybko rozpocząć selekcję kandydatów
+-???????otrzymywać powiadomienia o nowych podaniach	aby możliwie szybko rozpocząć selekcję kandydatów
 	odrzucać podania				aby dyskwalifikować kandydatów nie spełniających wymagań
 	przydzielać podaniom oznaczenia			aby ułatwić selekcję w przypadku dużej liczby zgłoszeń
-	przeglądać profile szukających pracy		aby znaleźć odpowiedniego pracownika
-	filtrować bazę szukających pracy		aby szybko znaleźć ludzi odpowiadających kryteriom stanowiska
-	wysłać ofertę ofertę bezpośrednio do pracownika aby skontaktować się bezpośrednio z obiecującym kandydatem
+--	przeglądać profile szukających pracy		aby znaleźć odpowiedniego pracownika
+-	filtrować bazę szukających pracy		aby szybko znaleźć ludzi odpowiadających kryteriom stanowiska
+--	wysłać ofertę ofertę bezpośrednio do pracownika aby skontaktować się bezpośrednio z obiecującym kandydatem
 	
+
+
+Pattern-Oriented Analysis and Design: Composing Patterns to Design Software SystemsSherif M. Yacoub ; Hany Hussein Ammar; Safari Tech Books Online.2003
+
+Robert C. Martin. 2008. Clean Code: A Handbook of Agile Software Craftsmanship (1 ed.). Prentice Hall PTR, Upper Saddle River, NJ, USA.
+
+Ng-Book - the Complete Book on AngularjsLerner, A. 2013
+
+https://spring.io
+
+ostateczny termin 2.12.2017
