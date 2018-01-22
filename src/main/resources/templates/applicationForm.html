@@ -22,7 +22,7 @@
         </ul>
         <div sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
             <form th:if="${job.videoUrl} or ${job.cvUrl}" class="offerForm" th:action="@{delete}" method="post">
-                <h1>Twoje podanie, status - <span th:text="${job.status}"></span> </h1>
+                <h1>Twoje podanie, status - <span th:text="${'Złożone'}"></span> </h1>
                 <label>Aktualne video</label>
                 <video th:if="${job.videoUrl}" th:src="@{'/getFile/' + ${job.videoUrl}}" controls="controls" width="400px"></video>
                 <a class="btn btn-success" target="_blank" th:if="${job.cvUrl}" th:href="@{'/getFile/' + ${job.cvUrl}}">aktualne cv</a>
@@ -35,6 +35,7 @@
                 <input type="hidden" th:field="*{applicationId}" />
                 <label>Video</label>
                 <input type="file" th:field="*{video}" placeholder="nazwa" accept="video/mp4,video/x-m4v,video/*"/>
+                <label>CV</label>
                 <input type="file" th:field="*{cv}" placeholder="nazwa"  accept="application/pdf"/>
 
                 <div><button class="btn btn-primary" type="submit">Zatwierdź</button></div>
@@ -53,8 +54,8 @@
                             <p>Czy na pewno chcesz usunąć ofertę? Ta czynność jest nieodwracalna. Po ponownym dodaniu oferty już otrzymane podania nie będą widoczne</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" th:href="'/deleteOffer/'+${offer.offerId}" data-dismiss="modal">Usuń
-                            </button>
+                            <a type="button" class="btn btn-danger" th:href="'/deleteOffer/'+${offer.offerId}">Usuń
+                            </a>
                             <button type="button" class="btn btn-success " data-dismiss="modal">Nie usuwaj
                             </button>
                         </div>
@@ -85,13 +86,13 @@
                         <td th:text="${application.person.firstName}"></td>
                         <td th:text="${application.person.lastName}"></td>
                         <td>
+                            <a class="btn btn-default download" th:if="${application.cvUrl}" th:href="@{'/getFile/' + ${application.cvUrl}}">Cv <span class="glyphicon glyphicon-download"></span></a>
+                        </td>
+                        <td>
+                            <a class="btn btn-default download" th:if="${application.videoUrl}" th:href="@{'/getFile/' + ${application.videoUrl}}" target="_blank">Obejrzyj video <span class="glyphicon glyphicon-download"></span></a>
+                        </td>
+                        <td>
                             <input type="hidden" th:field="*{applicationsByOfferId[__${rowStat.index}__].applicationId}"/>
-                            <a class="btn btn-default" th:if="${application.cvUrl}" th:href="@{'/getFile/' + ${application.cvUrl}}">Cv <span class="glyphicon glyphicon-download"></span></a>
-                        </td>
-                        <td>
-                            <a class="btn btn-default" th:if="${application.videoUrl}" th:href="@{'/getFile/' + ${application.videoUrl}}" target="_blank">Obejrzyj video <span class="glyphicon glyphicon-download"></span></a><br/>
-                        </td>
-                        <td>
                             <select class="status" th:field="*{applicationsByOfferId[__${rowStat.index}__].status}">
                                 <option th:value="submitted">złożone</option>
                                 <option th:value="tentative">Wstępnie akceptowane</option>

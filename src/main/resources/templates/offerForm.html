@@ -47,7 +47,7 @@
             <div><select id="tags" multiple="multiple" th:field="*{positionTypes}">
                 <option th:each="field : ${fields}" th:value="${field.name}" th:text="${field.name}"></option>
             </select></div>
-            <div><button type="submit">Zatwierdź</button></div>
+            <div><button class="btn submit-offer" type="submit">Zatwierdź</button></div>
         </form>
 
     </th:block>

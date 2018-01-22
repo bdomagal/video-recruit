@@ -96,11 +96,11 @@ public class CompanyController {
     @GetMapping("/myOffers")
     public String myOffers(Model model, Authentication authentication){
         model.addAttribute("offers", offerService.getOffersByLogin(authentication.getName()));
-        return "offerList";
+        return "myOffers";
     }
 
     @GetMapping("/deleteOffer/{id}")
-    public String deleteOffer(Model model, Authentication authentication, @PathVariable("id") int id) throws MySQLIntegrityConstraintViolationException {
+    public String deleteOffer(Authentication authentication, @PathVariable("id") int id) throws MySQLIntegrityConstraintViolationException {
         offerService.deleteOffer(id, authentication.getName());
         return "redirect:/myOffers?del";
     }

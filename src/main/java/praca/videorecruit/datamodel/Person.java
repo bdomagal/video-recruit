@@ -15,7 +15,7 @@ public class Person {
     private List<FieldOfBusiness> fieldOfBusinesses;
 
     @Id
-    @Column(name = "accountId", nullable = false)
+    @Column(name = "account_id", nullable = false)
     public Integer getAccountId() {
         return accountId;
     }
@@ -25,7 +25,7 @@ public class Person {
     }
 
     @Basic
-    @Column(name = "firstName", nullable = false, length = 255)
+    @Column(name = "first_name", nullable = false)
     public String getFirstName() {
         return firstName;
     }
@@ -35,7 +35,7 @@ public class Person {
     }
 
     @Basic
-    @Column(name = "lastName", nullable = false, length = 255)
+    @Column(name = "last_name", nullable = false)
     public String getLastName() {
         return lastName;
     }
@@ -45,7 +45,7 @@ public class Person {
     }
 
     @Basic
-    @Column(name = "country", nullable = false, length = 255)
+    @Column(name = "country", nullable = false)
     public String getCountry() {
         return country;
     }
@@ -55,7 +55,7 @@ public class Person {
     }
 
     @Basic
-    @Column(name = "imageUrl", nullable = true, length = 2000)
+    @Column(name = "image_url", length = 2000)
     public String getImageUrl() {
         return imageUrl;
     }
@@ -71,13 +71,12 @@ public class Person {
 
         Person person = (Person) o;
 
-        if (accountId != null ? !accountId.equals(person.accountId) : person.accountId != null) return false;
-        if (firstName != null ? !firstName.equals(person.firstName) : person.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(person.lastName) : person.lastName != null) return false;
-        if (country != null ? !country.equals(person.country) : person.country != null) return false;
-        if (imageUrl != null ? !imageUrl.equals(person.imageUrl) : person.imageUrl != null) return false;
-
-        return true;
+        if (accountId != null ? accountId.equals(person.accountId) : person.accountId != null)
+            if (firstName != null ? firstName.equals(person.firstName) : person.firstName != null)
+                if (lastName != null ? lastName.equals(person.lastName) : person.lastName != null)
+                    if (country != null ? country.equals(person.country) : person.country == null)
+                        if (imageUrl != null ? imageUrl.equals(person.imageUrl) : person.imageUrl == null) return true;
+        return false;
     }
 
     @Override
@@ -100,7 +99,7 @@ public class Person {
     }
 
     @OneToOne
-    @JoinColumn(name = "accountId", referencedColumnName = "accountId", nullable = false)
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id", nullable = false)
     public Account getAccountByAccountId() {
         return accountByAccountId;
     }
@@ -112,14 +111,14 @@ public class Person {
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "Person_Field",
-            joinColumns = { @JoinColumn(name = "accountId") },
+            joinColumns = { @JoinColumn(name = "account_id") },
             inverseJoinColumns = { @JoinColumn(name = "name") }
     )
     public List<FieldOfBusiness> getFieldOfBusinesses() {
         return fieldOfBusinesses;
     }
 
-    public void setFieldOfBusinesses(List<FieldOfBusiness> personFieldofbusinessesByAccountId) {
-        this.fieldOfBusinesses = personFieldofbusinessesByAccountId;
+    public void setFieldOfBusinesses(List<FieldOfBusiness> personFieldOfBusinessesByAccountId) {
+        this.fieldOfBusinesses = personFieldOfBusinessesByAccountId;
     }
 }

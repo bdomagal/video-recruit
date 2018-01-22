@@ -72,11 +72,12 @@ public class Account {
 
         Account account = (Account) o;
 
-        if (accountId != null ? !accountId.equals(account.accountId) : account.accountId != null) return false;
-        if (email != null ? !email.equals(account.email) : account.email != null) return false;
-        if (password != null ? !password.equals(account.password) : account.password != null) return false;
-        if (status != null ? !status.equals(account.status) : account.status != null) return false;
-        return phone != null ? phone.equals(account.phone) : account.phone == null;
+        if (accountId != null ? accountId.equals(account.accountId) : account.accountId == null)
+            if (email != null ? email.equals(account.email) : account.email == null)
+                if (password != null ? password.equals(account.password) : account.password == null)
+                    if (status != null ? status.equals(account.status) : account.status == null)
+                        if (phone != null ? phone.equals(account.phone) : account.phone == null) return true;
+        return false;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package praca.videorecruit.datamodel;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class Application {
@@ -11,11 +10,10 @@ public class Application {
     private String videoUrl;
     private Offer offer;
     private Person person;
-    private List<File> files;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "applicationId", nullable = false)
+    @Column(name = "application_id", nullable = false)
     public Integer getApplicationId() {
         return applicationId;
     }
@@ -36,7 +34,7 @@ public class Application {
     }
 
     @Basic
-    @Column(name = "cvURL", nullable = true, length = 1000)
+    @Column(name = "cvURL", length = 1000)
     public String getCvUrl() {
         return cvUrl;
     }
@@ -46,7 +44,7 @@ public class Application {
     }
 
     @Basic
-    @Column(name = "videoURL", nullable = true, length = 1000)
+    @Column(name = "videoURL", length = 1000)
     public String getVideoUrl() {
         return videoUrl;
     }
@@ -62,13 +60,11 @@ public class Application {
 
         Application that = (Application) o;
 
-        if (applicationId != null ? !applicationId.equals(that.applicationId) : that.applicationId != null)
-            return false;
-        if (status != null ? !status.equals(that.status) : that.status != null) return false;
-        if (cvUrl != null ? !cvUrl.equals(that.cvUrl) : that.cvUrl != null) return false;
-        if (videoUrl != null ? !videoUrl.equals(that.videoUrl) : that.videoUrl != null) return false;
-
-        return true;
+        if (applicationId != null ? applicationId.equals(that.applicationId) : that.applicationId == null)
+            if (status != null ? status.equals(that.status) : that.status == null)
+                if (cvUrl != null ? cvUrl.equals(that.cvUrl) : that.cvUrl == null)
+                    if (videoUrl != null ? videoUrl.equals(that.videoUrl) : that.videoUrl == null) return true;
+        return false;
     }
 
     @Override
@@ -81,7 +77,7 @@ public class Application {
     }
 
     @ManyToOne
-    @JoinColumn(name = "offerId", referencedColumnName = "offerId", nullable = false)
+    @JoinColumn(name = "offer_id", referencedColumnName = "offer_id", nullable = false)
     public Offer getOffer() {
         return offer;
     }
@@ -91,7 +87,7 @@ public class Application {
     }
 
     @ManyToOne
-    @JoinColumn(name = "personId", referencedColumnName = "accountId", nullable = false)
+    @JoinColumn(name = "person_id", referencedColumnName = "account_id", nullable = false)
     public Person getPerson() {
         return person;
     }
@@ -100,12 +96,4 @@ public class Application {
         this.person = personByPersonId;
     }
 
-    @OneToMany(mappedBy = "application")
-    public List<File> getFiles() {
-        return files;
-    }
-
-    public void setFiles(List<File> filesByApplicationId) {
-        this.files = filesByApplicationId;
-    }
 }

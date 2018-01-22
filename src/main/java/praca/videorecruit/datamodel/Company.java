@@ -15,7 +15,7 @@ public class Company {
     private List<Offer> offersByAccountId;
 
     @Id
-    @Column(name = "accountId", nullable = false)
+    @Column(name = "account_id", nullable = false)
     public Integer getAccountId() {
         return accountId;
     }
@@ -25,7 +25,7 @@ public class Company {
     }
 
     @Basic
-    @Column(name = "name", nullable = false, length = 255)
+    @Column(name = "name", nullable = false)
     public String getName() {
         return name;
     }
@@ -45,7 +45,7 @@ public class Company {
     }
 
     @Basic
-    @Column(name = "description", nullable = true, length = 6000)
+    @Column(name = "description", length = 6000)
     public String getDescription() {
         return description;
     }
@@ -55,7 +55,7 @@ public class Company {
     }
 
     @Basic
-    @Column(name = "homePage", nullable = true, length = 2000)
+    @Column(name = "home_page", length = 2000)
     public String getHomePage() {
         return homePage;
     }
@@ -65,7 +65,7 @@ public class Company {
     }
 
     @Basic
-    @Column(name = "imageUrl", nullable = true, length = 2000)
+    @Column(name = "image_url", length = 2000)
     public String getImageUrl() {
         return imageUrl;
     }
@@ -81,14 +81,14 @@ public class Company {
 
         Company company = (Company) o;
 
-        if (accountId != null ? !accountId.equals(company.accountId) : company.accountId != null) return false;
-        if (name != null ? !name.equals(company.name) : company.name != null) return false;
-        if (address != null ? !address.equals(company.address) : company.address != null) return false;
-        if (description != null ? !description.equals(company.description) : company.description != null) return false;
-        if (homePage != null ? !homePage.equals(company.homePage) : company.homePage != null) return false;
-        if (imageUrl != null ? !imageUrl.equals(company.imageUrl) : company.imageUrl != null) return false;
-
-        return true;
+        if (accountId != null ? accountId.equals(company.accountId) : company.accountId == null)
+            if (name != null ? name.equals(company.name) : company.name == null)
+                if (address != null ? address.equals(company.address) : company.address == null)
+                    if (description != null ? description.equals(company.description) : company.description == null)
+                        if (homePage != null ? homePage.equals(company.homePage) : company.homePage == null)
+                            if (imageUrl != null ? imageUrl.equals(company.imageUrl) : company.imageUrl == null)
+                                return true;
+        return false;
     }
 
     @Override
@@ -103,7 +103,7 @@ public class Company {
     }
 
     @OneToOne
-    @JoinColumn(name = "accountId", referencedColumnName = "accountId", nullable = false)
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id", nullable = false)
     public Account getAccountByAccountId() {
         return accountByAccountId;
     }

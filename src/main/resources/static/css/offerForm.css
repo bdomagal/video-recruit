@@ -162,3 +162,15 @@ form a.btn, form button.btn{
     width:400px;
     margin: 20px auto;
 }
+form button.submit-offer{
+    width: 80%;
+    max-width: 600px;
+}
+
+form a.download{
+    width: 300px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-left: 0;
+    margin-bottom: 0;
+}

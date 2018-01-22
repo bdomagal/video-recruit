@@ -21,7 +21,7 @@ public class Offer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "offerId", nullable = false)
+    @Column(name = "offer_id", nullable = false)
     public Integer getOfferId() {
         return offerId;
     }
@@ -32,7 +32,7 @@ public class Offer {
 
 
     @Basic
-    @Column(name = "name", nullable = false, length = 255)
+    @Column(name = "name", nullable = false)
     public String getName() {
         return name;
     }
@@ -52,7 +52,7 @@ public class Offer {
     }
 
     @Basic
-    @Column(name = "jobTitle", nullable = true, length = 255)
+    @Column(name = "job_title")
     public String getJobTitle() {
         return jobTitle;
     }
@@ -62,7 +62,7 @@ public class Offer {
     }
 
     @Basic
-    @Column(name = "city", nullable = true, length = 255)
+    @Column(name = "city")
     public String getCity() {
         return city;
     }
@@ -72,7 +72,7 @@ public class Offer {
     }
 
     @Basic
-    @Column(name = "country", nullable = false, length = 255)
+    @Column(name = "country", nullable = false)
     public String getCountry() {
         return country;
     }
@@ -88,14 +88,13 @@ public class Offer {
 
         Offer offer = (Offer) o;
 
-        if (offerId != null ? !offerId.equals(offer.offerId) : offer.offerId != null) return false;
-        if (name != null ? !name.equals(offer.name) : offer.name != null) return false;
-        if (description != null ? !description.equals(offer.description) : offer.description != null) return false;
-        if (jobTitle != null ? !jobTitle.equals(offer.jobTitle) : offer.jobTitle != null) return false;
-        if (city != null ? !city.equals(offer.city) : offer.city != null) return false;
-        if (country != null ? !country.equals(offer.country) : offer.country != null) return false;
-
-        return true;
+        if (offerId != null ? offerId.equals(offer.offerId) : offer.offerId == null)
+            if (name != null ? name.equals(offer.name) : offer.name == null)
+                if (description != null ? description.equals(offer.description) : offer.description == null)
+                    if (jobTitle != null ? jobTitle.equals(offer.jobTitle) : offer.jobTitle == null)
+                        if (city != null ? city.equals(offer.city) : offer.city == null)
+                            if (country != null ? country.equals(offer.country) : offer.country == null) return true;
+        return false;
     }
 
     @Override
@@ -119,7 +118,7 @@ public class Offer {
     }
 
     @ManyToOne
-    @JoinColumn(name = "companyId", referencedColumnName = "accountId", nullable = false)
+    @JoinColumn(name = "company_id", referencedColumnName = "account_id", nullable = false)
     public Company getCompany() {
         return company;
     }
@@ -132,7 +131,7 @@ public class Offer {
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "Offer_Field",
-            joinColumns = { @JoinColumn(name = "offerId") },
+            joinColumns = { @JoinColumn(name = "offer_id") },
             inverseJoinColumns = { @JoinColumn(name = "name") }
     )
     public List<FieldOfBusiness> getPositionTypes() {
@@ -144,7 +143,7 @@ public class Offer {
     }
 
     @Basic
-    @Column(name = "postedOn", nullable = false, length = 255)
+    @Column(name = "posted_on", nullable = false)
     public Date getPostedOn() {
         return postedOn;
     }
