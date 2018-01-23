@@ -49,15 +49,16 @@ public class JobApplicationController {
             String video = fileService.store(applicationDTO.getVideo(), accountId+"/"+id+"/", "video");
             String cv  = fileService.store(applicationDTO.getCv(), accountId+"/"+id+"/", "cv");
             String files = fileService.store(applicationDTO.getOtherFiles(), accountId+"/"+id+"/", "files");
-            app.setCvUrl(accountId+"/"+id+"/"+ cv);
-            app.setVideoUrl(accountId+"/"+id+"/"+video);
-            app.setOtherFilesUrl(accountId+"/"+id+"/"+files);
+            if(cv==null && app.getCvUrl()==null || app.getVideoUrl()==null && video == null){return "redirect:/apply/"+id+"/new?error=true";}
+            app.setCvUrl(cv!=null ? accountId+"/"+id+"/"+ cv : app.getCvUrl());
+            app.setVideoUrl(video!=null ? accountId+"/"+id+"/"+video : app.getVideoUrl());
+            app.setOtherFilesUrl(files!=null ? accountId+"/"+id+"/"+files : app.getOtherFilesUrl());
             app.setOffer(offerService.retrieveOffer(id));
             app.setStatus("submitted");
             app.setPerson(personRepository.findByAccountByAccountId_Email(authentication.getName()));
             applicationRepository.save(app);
         } catch (Exception e) {
-
+            return "redirect:/apply/"+id+"/new?error=true";
         }
         return "redirect:/apply/"+id+"/new?s=true";
     }

@@ -22,7 +22,7 @@
         </ul>
         <div sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
             <form th:if="${job.videoUrl} or ${job.cvUrl}" class="offerForm" th:action="@{delete}" method="post">
-                <h1>Twoje podanie, status - <span th:text="${'Złożone'}"></span> </h1>
+                <h1>Twoje podanie, status - <span th:text="${job.status}"></span> </h1>
                 <label>Aktualne video</label>
                 <video th:if="${job.videoUrl}" th:src="@{'/getFile/' + ${job.videoUrl}}" controls="controls" width="400px"></video>
                 <a class="btn btn-success" target="_blank" th:if="${job.cvUrl}" th:href="@{'/getFile/' + ${job.cvUrl}}">aktualne cv</a>

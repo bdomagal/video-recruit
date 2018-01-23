@@ -33,6 +33,7 @@ public class FileService{
 
 
     public String store(MultipartFile file, String folder, String name) throws Exception {
+        if(file.isEmpty()){return null;}
         Path p = Paths.get(rootLocation.toString(), folder);
         File directory = p.toFile();
         if(!directory.exists()){
