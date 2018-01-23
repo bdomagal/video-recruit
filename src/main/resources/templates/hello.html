@@ -4,12 +4,41 @@
       xmlns:th="http://www.thymeleaf.org"
       layout:decorator="mainLayout">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Welcome to video-recruit</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
 </head>
 <body>
-    <th:block layout:fragment="content">Welcome to video-recruiter
+    <th:block layout:fragment="content">
+        <h1>Witaj w Video-Rekrut</h1>
+        <h2>Nowe oferty</h2>
+        <table class="display" cellspacing="0" width="100%" id="offers" >
+            <thead >
+            <tr>
+                <td>Nazwa stanowiska</td>
+                <td>Firma</td>
+                <td>Miasto</td>
+                <td>Dziedzina</td>
+                <td>Kraj</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="offer : ${offers}">
+                <td th:text="${offer.name}">Nazwa stanowiska</td>
+                <td th:text="${offer.company.name}">Firma</td>
+                <td th:text="${offer.city}">Miasto</td>
+                <td ><span th:each="field : ${offer.positionTypes}" th:text="${field.name}+', '"></span></td>
+                <td th:text="${offer.country}">Kraj</td>
+                <td ><a class="btn btn-primary" th:href="@{'/apply/' + ${offer.offerId} + '/new'}">Szczegóły</a></td>
+            </tr>
+            </tbody>
+        </table>
 
+
+    </th:block>
+    <th:block layout:fragment="js">
+        <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="/js/offerList.js"></script>
     </th:block>
 </body>
 </html>

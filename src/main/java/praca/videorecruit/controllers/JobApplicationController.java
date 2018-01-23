@@ -48,8 +48,10 @@ public class JobApplicationController {
             if(app==null){app= new Application();}
             String video = fileService.store(applicationDTO.getVideo(), accountId+"/"+id+"/", "video");
             String cv  = fileService.store(applicationDTO.getCv(), accountId+"/"+id+"/", "cv");
+            String files = fileService.store(applicationDTO.getOtherFiles(), accountId+"/"+id+"/", "files");
             app.setCvUrl(accountId+"/"+id+"/"+ cv);
             app.setVideoUrl(accountId+"/"+id+"/"+video);
+            app.setOtherFilesUrl(accountId+"/"+id+"/"+files);
             app.setOffer(offerService.retrieveOffer(id));
             app.setStatus("submitted");
             app.setPerson(personRepository.findByAccountByAccountId_Email(authentication.getName()));

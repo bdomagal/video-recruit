@@ -8,6 +8,7 @@ public class Application {
     private String status;
     private String cvUrl;
     private String videoUrl;
+    private String otherFilesUrl;
     private Offer offer;
     private Person person;
 
@@ -96,4 +97,13 @@ public class Application {
         this.person = personByPersonId;
     }
 
+    @Basic
+    @Column(name = "files_url", length = 1000)
+    public String getOtherFilesUrl() {
+        return otherFilesUrl;
+    }
+
+    public void setOtherFilesUrl(String otherFilesUrl) {
+        this.otherFilesUrl = otherFilesUrl;
+    }
 }

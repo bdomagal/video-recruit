@@ -30,7 +30,7 @@
                     <td th:text="${application.offer.city}">Miasto</td>
                     <td ><span th:each="field : ${application.offer.positionTypes}" th:text="${field.name}+', '"></span></td>
                     <td th:text="${application.status}">Kraj</td>
-                    <td ><a class="btn btn-primary" th:href="@{'apply/' + ${application.offer.offerId} + '/new'}">Szczegóły</a></td>
+                    <td ><a class="btn btn-primary" th:href="@{'/apply/' + ${application.offer.offerId} + '/new'}">Szczegóły</a></td>
                 </tr>
             </tbody>
         </table>

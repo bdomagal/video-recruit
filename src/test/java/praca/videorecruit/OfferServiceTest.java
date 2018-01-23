@@ -23,6 +23,7 @@ import praca.videorecruit.services.OfferDTO;
 import praca.videorecruit.services.OfferService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -82,11 +83,11 @@ public class OfferServiceTest {
         o.setCity("Wrocław");
         o.setCompany(c);
         o.setOfferId(1);
+        o.setPostedOn(new Date());
         ArrayList<Offer> ofs =  new ArrayList<>();
         ofs.add(o);
         Mockito.when(offerRepository.findByCompany_AccountByAccountId_Email("test@test.com")).thenReturn(ofs);
         Mockito.when(offerRepository.findOne(1)).thenReturn(o);
-
     }
     @Test
     public void ifIdIsValid_OfferIsFound(){
@@ -127,4 +128,5 @@ public class OfferServiceTest {
                         o.getJobTitle()==od.getJobTitle();
         assert b;
     }
+
 }

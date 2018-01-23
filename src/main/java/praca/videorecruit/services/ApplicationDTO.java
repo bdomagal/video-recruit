@@ -11,8 +11,10 @@ public class ApplicationDTO {
     private Integer applicationId;
     private String status;
     private String cvUrl;
+    private String otherFilesUrl;
     private MultipartFile video;
     private MultipartFile cv;
+    private MultipartFile otherFiles;
     private String videoUrl;
     private Offer offer;
     private Person person;
@@ -22,6 +24,7 @@ public class ApplicationDTO {
         this.applicationId = app.getApplicationId();
         this.status = app.getStatus();
         this.cvUrl = app.getCvUrl();
+        this.otherFilesUrl=app.getOtherFilesUrl();
         this.videoUrl = app.getVideoUrl();
         this.offer = app.getOffer();
         this.person = app.getPerson();
@@ -29,6 +32,22 @@ public class ApplicationDTO {
 
     public ApplicationDTO() {
 
+    }
+
+    public String getOtherFilesUrl() {
+        return otherFilesUrl;
+    }
+
+    public void setOtherFilesUrl(String otherFilesUrl) {
+        this.otherFilesUrl = otherFilesUrl;
+    }
+
+    public MultipartFile getOtherFiles() {
+        return otherFiles;
+    }
+
+    public void setOtherFiles(MultipartFile otherFiles) {
+        this.otherFiles = otherFiles;
     }
 
     public Integer getApplicationId() {

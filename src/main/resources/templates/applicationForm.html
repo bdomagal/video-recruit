@@ -26,6 +26,7 @@
                 <label>Aktualne video</label>
                 <video th:if="${job.videoUrl}" th:src="@{'/getFile/' + ${job.videoUrl}}" controls="controls" width="400px"></video>
                 <a class="btn btn-success" target="_blank" th:if="${job.cvUrl}" th:href="@{'/getFile/' + ${job.cvUrl}}">aktualne cv</a>
+                <a class="btn btn-success" target="_blank" th:if="${job.otherFilesUrl}" th:href="@{'/getFile/' + ${job.otherFilesUrl}}">Inne pliki</a>
                 <div><button class="btn btn-danger" type="submit">Anuluj podanie</button></div>
             </form>
             <form th:if="${job.status} != 'accepted' and ${job.status} != 'tentative'" class="offerForm" th:action="@{new}" method="post" th:object="${job}" enctype="multipart/form-data" >
@@ -37,6 +38,8 @@
                 <input type="file" th:field="*{video}" placeholder="nazwa" accept="video/mp4,video/x-m4v,video/*"/>
                 <label>CV</label>
                 <input type="file" th:field="*{cv}" placeholder="nazwa"  accept="application/pdf"/>
+                <label>Inne pliki(.zip, MAX 5MB)</label>
+                <input type="file" th:field="*{otherFiles}" accept="application/zip"/>
 
                 <div><button class="btn btn-primary" type="submit">Zatwierdź</button></div>
             </form>
